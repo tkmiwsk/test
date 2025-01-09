@@ -2,8 +2,21 @@
 
 const grid = document.getElementById('grid');
 
-// Initialize a 9x9 Sudoku grid
-const sudokuGrid = Array.from({ length: 9 }, () => Array(9).fill(0));
+// Predefined Sudoku puzzle (0 represents an empty cell)
+const initialPuzzle = [
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 9]
+];
+
+// Copy the predefined puzzle to the working grid
+const sudokuGrid = initialPuzzle.map(row => [...row]);
 
 // Generate the grid on the webpage
 function createGrid() {
@@ -16,20 +29,26 @@ function createGrid() {
             cell.dataset.row = row;
             cell.dataset.col = col;
 
-            // Handle input validation
-            cell.addEventListener('input', (e) => {
-                const value = parseInt(e.target.value, 10);
-                if (isNaN(value) || value < 1 || value > 9) {
-                    e.target.value = '';
-                } else {
-                    sudokuGrid[row][col] = value;
-                    if (isValid(row, col, value)) {
-                        e.target.classList.add('highlight');
+            if (initialPuzzle[row][col] !== 0) {
+                cell.value = initialPuzzle[row][col];
+                cell.disabled = true;
+                cell.classList.add('fixed');
+            } else {
+                // Handle input validation
+                cell.addEventListener('input', (e) => {
+                    const value = parseInt(e.target.value, 10);
+                    if (isNaN(value) || value < 1 || value > 9) {
+                        e.target.value = '';
                     } else {
-                        e.target.classList.remove('highlight');
+                        sudokuGrid[row][col] = value;
+                        if (isValid(row, col, value)) {
+                            e.target.classList.add('highlight');
+                        } else {
+                            e.target.classList.remove('highlight');
+                        }
                     }
-                }
-            });
+                });
+            }
 
             grid.appendChild(cell);
         }
@@ -86,7 +105,7 @@ function fillGrid() {
     cells.forEach((cell) => {
         const row = parseInt(cell.dataset.row, 10);
         const col = parseInt(cell.dataset.col, 10);
-        if (sudokuGrid[row][col] !== 0) {
+        if (sudokuGrid[row][col] !== 0 && !cell.classList.contains('fixed')) {
             cell.value = sudokuGrid[row][col];
             cell.classList.add('highlight');
         }
