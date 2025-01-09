@@ -1,130 +1,84 @@
-// script.js
+// 数独グリッドの初期化
+const sudokuGrid = document.getElementById('sudoku-grid');
+const solveButton = document.getElementById('solve-button');
+const hintButton = document.getElementById('hint-button');
 
-const grid = document.getElementById('grid');
+// 9x9の空の数独グリッドを作成
+let grid = Array.from({ length: 9 }, () => Array(9).fill(0));
 
-// Predefined Sudoku puzzle (0 represents an empty cell)
-const initialPuzzle = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
-];
-
-// Copy the predefined puzzle to the working grid
-const sudokuGrid = initialPuzzle.map(row => [...row]);
-
-// Generate the grid on the webpage
+// グリッドを表示する関数
 function createGrid() {
+    sudokuGrid.innerHTML = '';
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             const cell = document.createElement('input');
             cell.type = 'text';
             cell.maxLength = 1;
-            cell.classList.add('cell');
+            cell.className = 'cell';
             cell.dataset.row = row;
             cell.dataset.col = col;
-
-            if (initialPuzzle[row][col] !== 0) {
-                cell.value = initialPuzzle[row][col];
-                cell.disabled = true;
-                cell.classList.add('fixed');
-            } else {
-                // Handle input validation
-                cell.addEventListener('input', (e) => {
-                    const value = parseInt(e.target.value, 10);
-                    if (isNaN(value) || value < 1 || value > 9) {
-                        e.target.value = '';
-                    } else {
-                        sudokuGrid[row][col] = value;
-                        if (isValid(row, col, value)) {
-                            e.target.classList.add('highlight');
-                        } else {
-                            e.target.classList.remove('highlight');
-                        }
-                    }
-                });
-            }
-
-            grid.appendChild(cell);
+            cell.addEventListener('input', validateInput);
+            sudokuGrid.appendChild(cell);
         }
     }
 }
 
-// Check if a number is valid in a specific cell
-function isValid(row, col, num) {
-    // Check row and column
-    for (let i = 0; i < 9; i++) {
-        if (sudokuGrid[row][i] === num && i !== col) return false;
-        if (sudokuGrid[i][col] === num && i !== row) return false;
+// 入力を検証する関数
+function validateInput(event) {
+    const value = event.target.value;
+    const row = event.target.dataset.row;
+    const col = event.target.dataset.col;
+
+    if (value < 1 || value > 9) {
+        event.target.value = '';
+        return;
     }
 
-    // Check 3x3 subgrid
+    // 正しい数字の場合はハイライト
+    if (checkValue(row, col, value)) {
+        event.target.classList.add('correct');
+        event.target.classList.remove('wrong');
+    } else {
+        event.target.classList.add('wrong');
+        event.target.classList.remove('correct');
+    }
+}
+
+// 数字が正しいか確認する関数
+function checkValue(row, col, value) {
+    // 行、列、ブロックのチェック
+    for (let i = 0; i < 9; i++) {
+        if (grid[row][i] == value || grid[i][col] == value) {
+            return false;
+        }
+    }
     const startRow = Math.floor(row / 3) * 3;
     const startCol = Math.floor(col / 3) * 3;
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-            if (
-                sudokuGrid[startRow + i][startCol + j] === num &&
-                (startRow + i !== row || startCol + j !== col)
-            ) {
+    for (let i = startRow; i < startRow + 3; i++) {
+        for (let j = startCol; j < startCol + 3; j++) {
+            if (grid[i][j] == value) {
                 return false;
             }
         }
     }
-
     return true;
 }
 
-// Solve the Sudoku using backtracking
+// バックトラッキングアルゴリズムを使用して数独を解く関数
 function solveSudoku() {
-    for (let row = 0; row < 9; row++) {
-        for (let col = 0; col < 9; col++) {
-            if (sudokuGrid[row][col] === 0) {
-                for (let num = 1; num <= 9; num++) {
-                    if (isValid(row, col, num)) {
-                        sudokuGrid[row][col] = num;
-                        if (solveSudoku()) return true;
-                        sudokuGrid[row][col] = 0;
-                    }
-                }
-                return false;
-            }
-        }
-    }
-    return true;
+    // 解決ロジックを実装
+    // ここにバックトラッキングアルゴリズムを追加
 }
 
-// Populate the grid with the solution
-function fillGrid() {
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach((cell) => {
-        const row = parseInt(cell.dataset.row, 10);
-        const col = parseInt(cell.dataset.col, 10);
-        if (sudokuGrid[row][col] !== 0 && !cell.classList.contains('fixed')) {
-            cell.value = sudokuGrid[row][col];
-            cell.classList.add('highlight');
-        }
-    });
+// ヒントを要求する関数
+function giveHint() {
+    // ヒントロジックを実装
+    // ここにヒントを提供するロジックを追加
 }
 
-// Add event listeners to buttons
-document.getElementById('hint-button').addEventListener('click', () => {
-    solveSudoku();
-    fillGrid();
-});
+// ボタンのイベントリスナー
+solveButton.addEventListener('click', solveSudoku);
+hintButton.addEventListener('click', giveHint);
 
-document.getElementById('solve-button').addEventListener('click', () => {
-    if (solveSudoku()) {
-        fillGrid();
-    } else {
-        alert('No solution exists!');
-    }
-});
-
-// Initialize the game
+// グリッドを作成
 createGrid();
