@@ -1,38 +1,48 @@
-/* スタイルシートの設定 */
-
+/* 全体のスタイル */
 body {
-    font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin: 20px;
+    height: 100vh;
+    margin: 0;
+    background-color: #f9f9f9;
 }
 
-h1 {
-    margin-bottom: 20px;
-}
-
-#sudoku-grid {
+/* グリッド全体のスタイル */
+#grid {
     display: grid;
-    grid-template-columns: repeat(9, 50px);
-    grid-template-rows: repeat(9, 50px);
-    gap: 2px;
+    grid-template-columns: repeat(9, 50px); /* 横9マス */
+    grid-template-rows: repeat(9, 50px); /* 縦9マス */
+    gap: 1px; /* セル間の隙間 */
+    background-color: black;
+    padding: 5px;
+    border: 2px solid black;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box; /* 全体のサイズを正しく計算 */
 }
 
+/* 各セルのスタイル */
 .cell {
     width: 50px;
     height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #ccc;
-    font-size: 24px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 50px;
+    border: none;
+    outline: none;
+    background-color: white;
+    color: black;
+    box-sizing: border-box;
 }
 
-.cell.correct {
-    background-color: #90ee90; /* 正しい数字のハイライト */
+/* 固定されたセルのスタイル */
+.cell.fixed {
+    background-color: #ddd;
+    color: black;
+    font-weight: bold;
 }
 
-.cell.wrong {
-    background-color: #ffcccb; /* 間違った数字のハイライト */
+/* 正しい入力をハイライト */
+.cell.highlight {
+    background-color: #c8e6c9;
 }
