@@ -20,14 +20,6 @@ const sudokuGrid = initialPuzzle.map(row => [...row]);
 
 // Generate the grid on the webpage
 function createGrid() {
-    grid.style.display = 'grid';
-    grid.style.gridTemplateRows = 'repeat(9, 1fr)';
-    grid.style.gridTemplateColumns = 'repeat(9, 1fr)';
-    grid.style.width = '360px';
-    grid.style.height = '360px';
-    grid.style.margin = '50px auto';
-    grid.style.border = '2px solid black';
-
     for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
             const cell = document.createElement('input');
@@ -58,9 +50,6 @@ function createGrid() {
                 });
             }
 
-            cell.style.border = '1px solid gray';
-            cell.style.textAlign = 'center';
-            cell.style.fontSize = '18px';
             grid.appendChild(cell);
         }
     }
