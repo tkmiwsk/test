@@ -18,6 +18,7 @@ body {
     padding: 5px;
     border: 2px solid black;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box; /* 全体のサイズを正しく計算 */
 }
 
 /* 各セルのスタイル */
