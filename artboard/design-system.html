@@ -11,42 +11,62 @@
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg-primary: #0D1117;
-    --bg-secondary: #161B22;
-    --bg-tertiary: #21262D;
-    --border-default: #30363D;
-    --border-subtle: #21262D;
-    --text-primary: #F0F6FC;
-    --text-secondary: #8B949E;
-    --text-tertiary: #484F58;
-    --status-success: #3FB950;
-    --status-warning: #D29922;
-    --status-danger: #F85149;
-    --status-info: #58A6FF;
-    --yomi-primary: #00D4FF;
-    --yomi-glow: rgba(0, 212, 255, 0.25);
-    --yomi-surface: rgba(0, 212, 255, 0.08);
-    --yomi-dark: #0A2A3A;
-    --bassar-primary: #FF3B5C;
-    --bassar-glow: rgba(255, 59, 92, 0.25);
-    --bassar-surface: rgba(255, 59, 92, 0.08);
-    --bassar-dark: #3A0A15;
-    --nukuru-primary: #5CFFB1;
-    --nukuru-glow: rgba(92, 255, 177, 0.25);
-    --nukuru-surface: rgba(92, 255, 177, 0.08);
-    --nukuru-dark: #0A3A25;
+    /* ── Light Base ── */
+    --bg-page: #FFFFFF;
+    --bg-card: #F9FAFB;
+    --bg-inset: #F3F4F6;
+    --border-default: #E5E7EB;
+    --border-subtle: #F3F4F6;
+
+    /* ── Text ── */
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-tertiary: #9CA3AF;
+    --text-inverse: #FFFFFF;
+
+    /* ── Status ── */
+    --status-success: #10B981;
+    --status-warning: #F59E0B;
+    --status-danger: #EF4444;
+    --status-info: #3B82F6;
+
+    /* ── Character: Yomi (Sky Blue) ── */
+    --yomi-primary: #0EA5E9;
+    --yomi-light: #E0F2FE;
+    --yomi-surface: #F0F9FF;
+    --yomi-dark: #0369A1;
+
+    /* ── Character: Bassar (Rose) ── */
+    --bassar-primary: #F43F5E;
+    --bassar-light: #FFE4E6;
+    --bassar-surface: #FFF1F2;
+    --bassar-dark: #BE123C;
+
+    /* ── Character: Nukuru (Emerald) ── */
+    --nukuru-primary: #10B981;
+    --nukuru-light: #D1FAE5;
+    --nukuru-surface: #ECFDF5;
+    --nukuru-dark: #047857;
+
+    /* ── Radius ── */
     --radius-s: 8px;
     --radius-m: 12px;
     --radius-l: 16px;
     --radius-xl: 24px;
     --radius-full: 9999px;
+
+    /* ── Shadow ── */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.1);
   }
 
   body {
-    background: #000;
+    background: var(--bg-page);
     color: var(--text-primary);
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
   /* ===== Artboard Layout ===== */
@@ -63,29 +83,27 @@
     border-bottom: 1px solid var(--border-default);
   }
   .artboard-header h1 {
-    font-size: 40px;
+    font-size: 36px;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
     margin-bottom: 8px;
-    background: linear-gradient(135deg, var(--yomi-primary), var(--bassar-primary), var(--nukuru-primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
   }
   .artboard-header p {
     color: var(--text-secondary);
-    font-size: 16px;
+    font-size: 15px;
+    font-weight: 400;
   }
 
   .section {
     margin-bottom: 80px;
   }
   .section-title {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     margin-bottom: 32px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border-default);
@@ -100,76 +118,71 @@
   }
   .mood-card {
     aspect-ratio: 16 / 10;
-    border-radius: var(--radius-l);
+    border-radius: var(--radius-xl);
     display: flex;
     align-items: flex-end;
-    padding: 20px;
+    padding: 24px;
     position: relative;
     overflow: hidden;
+    border: 1px solid var(--border-default);
   }
   .mood-card span {
     font-size: 13px;
     font-weight: 500;
-    color: #fff;
     z-index: 1;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    line-height: 1.6;
   }
   .mood-card.mc1 {
-    background: linear-gradient(135deg, #0D1117 0%, #0A2A3A 60%, #00D4FF 150%);
+    background: linear-gradient(160deg, #FFFFFF 0%, var(--yomi-surface) 100%);
     grid-row: span 2;
+    color: var(--yomi-dark);
   }
   .mood-card.mc1::after {
     content: '';
     position: absolute;
-    top: 30%;
-    right: 10%;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, var(--yomi-glow) 0%, transparent 70%);
+    top: 20%;
+    right: 5%;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, var(--yomi-light) 0%, transparent 70%);
     border-radius: 50%;
   }
   .mood-card.mc2 {
-    background: linear-gradient(180deg, #161B22, #1a1a2e);
+    background: linear-gradient(180deg, #FFFFFF, var(--bg-card));
+    color: var(--text-secondary);
   }
   .mood-card.mc2::before {
     content: '☕';
     position: absolute;
     top: 20px;
     right: 24px;
-    font-size: 48px;
-    opacity: 0.3;
+    font-size: 40px;
+    opacity: 0.15;
   }
   .mood-card.mc3 {
-    background: linear-gradient(135deg, #0D1117 0%, #1a0a2e 100%);
+    background: var(--bg-card);
+    color: var(--text-secondary);
   }
   .mood-card.mc3::after {
     content: '';
     position: absolute;
-    top: 15%;
-    left: 20%;
-    width: 60%;
-    height: 4px;
+    top: 20%;
+    left: 15%;
+    width: 70%;
+    height: 3px;
     background: linear-gradient(90deg, var(--yomi-primary), var(--bassar-primary), var(--nukuru-primary));
     border-radius: 2px;
-    box-shadow: 0 0 20px var(--yomi-glow);
+    opacity: 0.5;
   }
   .mood-card.mc4 {
-    background: linear-gradient(135deg, #0D1117, #21262D);
+    background: linear-gradient(135deg, #FFFFFF, var(--bg-inset));
     grid-column: span 2;
-  }
-  .mood-card.mc4::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 60%;
-    background: linear-gradient(0deg, rgba(0,212,255,0.05), transparent);
+    color: var(--text-secondary);
   }
 
   .mood-keywords {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
   }
   .mood-keywords span {
@@ -178,6 +191,7 @@
     border-radius: var(--radius-full);
     font-size: 13px;
     color: var(--text-secondary);
+    background: var(--bg-page);
   }
 
   /* ===== 2. Color Palette ===== */
@@ -188,7 +202,7 @@
     margin-bottom: 40px;
   }
   .color-group h3 {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     margin-bottom: 16px;
     color: var(--text-primary);
@@ -209,16 +223,11 @@
     font-size: 11px;
     font-family: 'Inter', monospace;
     gap: 4px;
-    border: 1px solid rgba(255,255,255,0.05);
+    border: 1px solid var(--border-default);
     transition: transform 0.2s;
   }
-  .color-swatch:hover {
-    transform: scale(1.05);
-  }
-  .color-swatch .label {
-    font-size: 10px;
-    opacity: 0.7;
-  }
+  .color-swatch:hover { transform: scale(1.05); }
+  .color-swatch .label { font-size: 10px; opacity: 0.7; }
 
   /* Character Color Bands */
   .char-color-bands {
@@ -231,12 +240,15 @@
     border-radius: var(--radius-l);
     overflow: hidden;
     border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-sm);
   }
   .char-band-header {
-    padding: 20px;
-    text-align: center;
+    padding: 16px 20px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
   .char-band-colors {
     display: flex;
@@ -249,12 +261,14 @@
     justify-content: center;
     font-size: 10px;
     font-family: 'Inter', monospace;
+    font-weight: 500;
   }
 
   /* Status Colors */
   .status-row {
     display: flex;
-    gap: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
   }
   .status-chip {
     display: flex;
@@ -266,17 +280,47 @@
     font-weight: 500;
   }
   .status-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
   }
 
   /* ===== 3. Typography ===== */
+  .font-showcase {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .font-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    border: 1px solid var(--border-default);
+  }
+  .font-card .font-name {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+    font-family: 'Inter', monospace;
+    letter-spacing: 0.03em;
+  }
+  .font-card .font-preview {
+    font-size: 26px;
+    margin-bottom: 16px;
+    line-height: 1.4;
+    color: var(--text-primary);
+  }
+  .font-card .font-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
   .type-specimens {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    margin-bottom: 40px;
+    gap: 0;
   }
   .type-row {
     display: grid;
@@ -296,150 +340,109 @@
     color: var(--text-primary);
   }
 
-  .font-showcase {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 40px;
-  }
-  .font-card {
-    background: var(--bg-secondary);
-    border-radius: var(--radius-l);
-    padding: 24px;
-    border: 1px solid var(--border-default);
-  }
-  .font-card .font-name {
-    font-size: 12px;
-    color: var(--text-tertiary);
-    margin-bottom: 8px;
-    font-family: 'Inter', monospace;
-  }
-  .font-card .font-preview {
-    font-size: 28px;
-    margin-bottom: 16px;
-    line-height: 1.3;
-  }
-  .font-card .font-desc {
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-
   /* ===== 4. Components ===== */
   .component-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-    margin-bottom: 32px;
+    gap: 24px;
+    margin-bottom: 24px;
   }
   .component-card {
-    background: var(--bg-secondary);
+    background: var(--bg-card);
     border-radius: var(--radius-xl);
-    padding: 32px;
+    padding: 28px;
     border: 1px solid var(--border-default);
   }
   .component-card h3 {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
+    color: var(--text-tertiary);
+    margin-bottom: 20px;
     letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
-  /* Bubble Component */
-  .bubble {
-    border-radius: var(--radius-l);
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-  .bubble-header {
+  /* ── Chat Bubbles (LINE-style) ── */
+  .chat-thread {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
+    flex-direction: column;
+    gap: 12px;
   }
-  .bubble-avatar {
+  .chat-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .chat-avatar {
     width: 36px;
     height: 36px;
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     flex-shrink: 0;
+    color: var(--text-inverse);
   }
-  .bubble-name {
-    font-size: 13px;
+  .chat-body {
+    max-width: 80%;
+  }
+  .chat-name {
+    font-size: 11px;
     font-weight: 600;
+    margin-bottom: 4px;
+    padding-left: 2px;
   }
-  .bubble-text {
+  .chat-bubble {
+    padding: 12px 16px;
+    border-radius: 4px 18px 18px 18px;
     font-family: 'Zen Maru Gothic', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.7;
     color: var(--text-primary);
+    position: relative;
   }
-  .bubble-footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 12px;
-  }
-  .share-btn {
-    font-size: 11px;
+  .chat-time {
+    font-size: 10px;
     color: var(--text-tertiary);
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .share-btn:hover { color: var(--text-secondary); }
-
-  .bubble.yomi {
-    background: var(--yomi-dark);
-    border: 1px solid rgba(0,212,255,0.2);
-  }
-  .bubble.yomi .bubble-avatar {
-    background: var(--yomi-primary);
-    color: var(--bg-primary);
-  }
-  .bubble.yomi .bubble-name { color: var(--yomi-primary); }
-
-  .bubble.bassar {
-    background: var(--bassar-dark);
-    border: 1px solid rgba(255,59,92,0.2);
-  }
-  .bubble.bassar .bubble-avatar {
-    background: var(--bassar-primary);
-    color: #fff;
-  }
-  .bubble.bassar .bubble-name { color: var(--bassar-primary); }
-
-  .bubble.nukuru {
-    background: var(--nukuru-dark);
-    border: 1px solid rgba(92,255,177,0.2);
-  }
-  .bubble.nukuru .bubble-avatar {
-    background: var(--nukuru-primary);
-    color: var(--bg-primary);
-  }
-  .bubble.nukuru .bubble-name { color: var(--nukuru-primary); }
-
-  .bubble.highlight {
-    border-left-width: 4px;
-    box-shadow: -4px 0 20px var(--yomi-glow);
+    margin-top: 4px;
+    padding-left: 2px;
+    font-family: 'Inter', monospace;
   }
 
-  /* Data Card Component */
+  .chat-bubble.yomi {
+    background: var(--yomi-surface);
+    border: 1px solid var(--yomi-light);
+  }
+  .chat-name.yomi { color: var(--yomi-primary); }
+  .chat-avatar.yomi { background: var(--yomi-primary); }
+
+  .chat-bubble.bassar {
+    background: var(--bassar-surface);
+    border: 1px solid var(--bassar-light);
+  }
+  .chat-name.bassar { color: var(--bassar-primary); }
+  .chat-avatar.bassar { background: var(--bassar-primary); }
+
+  .chat-bubble.nukuru {
+    background: var(--nukuru-surface);
+    border: 1px solid var(--nukuru-light);
+  }
+  .chat-name.nukuru { color: var(--nukuru-primary); }
+  .chat-avatar.nukuru { background: var(--nukuru-primary); }
+
+  /* ── Data Card ── */
   .data-cards {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
   .data-card {
-    background: var(--bg-tertiary);
+    background: var(--bg-page);
     border-radius: var(--radius-m);
     padding: 16px;
+    border: 1px solid var(--border-default);
   }
   .data-card .dc-label {
     font-size: 11px;
@@ -448,41 +451,40 @@
   }
   .data-card .dc-value {
     font-family: 'Inter', monospace;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.2;
   }
   .data-card .dc-change {
     font-family: 'Inter', monospace;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     margin-top: 4px;
   }
   .dc-change.up { color: var(--status-success); }
   .dc-change.down { color: var(--status-danger); }
-  .dc-change.flat { color: var(--text-tertiary); }
 
-  /* Button Component */
+  /* ── Buttons ── */
   .button-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
   .btn-row {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     align-items: center;
   }
   .btn-row-label {
     font-size: 11px;
     color: var(--text-tertiary);
-    width: 80px;
+    width: 72px;
     flex-shrink: 0;
     font-family: 'Inter', monospace;
   }
   .btn {
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: var(--radius-m);
     font-size: 14px;
     font-weight: 600;
@@ -491,11 +493,11 @@
     border: none;
     transition: all 0.15s;
   }
-  .btn:hover { filter: brightness(1.15); }
+  .btn:hover { opacity: 0.85; }
 
-  .btn-primary-yomi { background: var(--yomi-primary); color: var(--bg-primary); }
+  .btn-primary-yomi { background: var(--yomi-primary); color: #fff; }
   .btn-primary-bassar { background: var(--bassar-primary); color: #fff; }
-  .btn-primary-nukuru { background: var(--nukuru-primary); color: var(--bg-primary); }
+  .btn-primary-nukuru { background: var(--nukuru-primary); color: #fff; }
 
   .btn-secondary-yomi {
     background: transparent;
@@ -517,21 +519,20 @@
     background: transparent;
     color: var(--text-secondary);
     border: none;
-    padding: 12px 16px;
   }
   .btn-ghost:hover { color: var(--text-primary); }
 
-  /* Quiz Option */
+  /* ── Quiz Option ── */
   .quiz-options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
   .quiz-option {
-    background: var(--bg-tertiary);
+    background: var(--bg-page);
     border: 1.5px solid var(--border-default);
     border-radius: var(--radius-l);
-    padding: 16px 20px;
+    padding: 14px 18px;
     font-size: 14px;
     color: var(--text-primary);
     cursor: pointer;
@@ -539,39 +540,34 @@
   }
   .quiz-option:hover {
     border-color: var(--text-tertiary);
-    background: rgba(255,255,255,0.03);
+    background: var(--bg-card);
   }
   .quiz-option.selected {
     border-color: var(--yomi-primary);
     background: var(--yomi-surface);
-    box-shadow: 0 0 12px var(--yomi-glow);
   }
 
-  /* Tab Bar */
+  /* ── Tab Bar ── */
   .tab-bar-demo {
-    background: var(--bg-primary);
+    background: var(--bg-page);
     border: 1px solid var(--border-default);
     border-radius: var(--radius-l);
     display: flex;
-    padding: 8px 0;
-    overflow: hidden;
+    padding: 6px 0;
   }
   .tab-item {
     flex: 1;
     text-align: center;
-    padding: 8px 0;
+    padding: 6px 0;
     cursor: pointer;
-    transition: color 0.15s;
   }
-  .tab-item .tab-icon {
-    font-size: 20px;
-    margin-bottom: 2px;
-  }
+  .tab-item .tab-icon { font-size: 20px; margin-bottom: 2px; }
   .tab-item .tab-label {
     font-size: 10px;
     color: var(--text-tertiary);
+    font-weight: 500;
   }
-  .tab-item.active .tab-label { color: var(--yomi-primary); }
+  .tab-item.active .tab-label { color: var(--yomi-primary); font-weight: 600; }
   .tab-item.active::after {
     content: '';
     display: block;
@@ -588,32 +584,33 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
   }
+  .phone-wrap {
+    text-align: center;
+  }
   .phone-mock {
-    background: var(--bg-primary);
-    border-radius: 40px;
+    background: var(--bg-page);
+    border-radius: 36px;
     border: 2px solid var(--border-default);
-    padding: 16px;
+    padding: 12px;
     aspect-ratio: 9 / 18;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    position: relative;
-    max-width: 320px;
+    max-width: 300px;
     margin: 0 auto;
+    box-shadow: var(--shadow-lg);
   }
   .phone-notch {
-    width: 120px;
-    height: 28px;
-    background: #000;
-    border-radius: 0 0 16px 16px;
-    margin: -16px auto 12px;
-    position: relative;
-    z-index: 2;
+    width: 100px;
+    height: 24px;
+    background: var(--bg-card);
+    border-radius: 0 0 14px 14px;
+    margin: -12px auto 8px;
   }
   .phone-status-bar {
     display: flex;
     justify-content: space-between;
-    padding: 0 8px 8px;
+    padding: 0 8px 6px;
     font-size: 11px;
     font-family: 'Inter', monospace;
     font-weight: 600;
@@ -623,16 +620,43 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     overflow: hidden;
     padding: 0 4px;
   }
+  .phone-section-label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
   .phone-greeting {
     font-family: 'Zen Maru Gothic', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.6;
-    padding: 14px;
-    border-radius: var(--radius-m);
+    padding: 12px;
+    border-radius: 4px 14px 14px 14px;
+    display: flex;
+    gap: 8px;
+  }
+  .phone-greeting-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .phone-greeting-body {
+    flex: 1;
+  }
+  .phone-greeting-name {
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 2px;
   }
   .phone-stats {
     display: grid;
@@ -641,17 +665,19 @@
   }
   .phone-stat {
     border-radius: var(--radius-s);
-    padding: 10px;
-    background: var(--bg-tertiary);
+    padding: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
   }
   .phone-stat .ps-label {
-    font-size: 9px;
+    font-size: 8px;
     color: var(--text-tertiary);
   }
   .phone-stat .ps-value {
     font-family: 'Inter', monospace;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
+    color: var(--text-primary);
     line-height: 1.3;
   }
   .phone-stat .ps-change {
@@ -659,36 +685,9 @@
     font-size: 10px;
     font-weight: 600;
   }
-  .phone-posts-label {
-    font-size: 11px;
-    color: var(--text-secondary);
-    font-weight: 600;
-  }
-  .phone-posts {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-  }
-  .phone-post-thumb {
-    aspect-ratio: 1;
-    border-radius: var(--radius-s);
-    position: relative;
-  }
-  .phone-post-badge {
-    position: absolute;
-    bottom: 3px;
-    right: 3px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    font-size: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
   .phone-tab-bar {
     display: flex;
-    padding: 8px 0 4px;
+    padding: 6px 0 2px;
     border-top: 1px solid var(--border-default);
     margin-top: auto;
   }
@@ -696,17 +695,15 @@
     flex: 1;
     text-align: center;
     font-size: 16px;
-    opacity: 0.3;
+    opacity: 0.25;
   }
   .phone-tab.active { opacity: 1; }
   .phone-theme-label {
-    text-align: center;
     margin-top: 16px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
   }
   .phone-theme-sub {
-    text-align: center;
     font-size: 12px;
     color: var(--text-secondary);
     margin-top: 4px;
@@ -716,58 +713,59 @@
   .share-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 20px;
   }
   .share-card {
     aspect-ratio: 1;
     border-radius: var(--radius-xl);
-    padding: 32px;
+    padding: 28px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
     overflow: hidden;
+    border: 1px solid var(--border-default);
+    box-shadow: var(--shadow-md);
   }
   .share-card::before {
     content: '';
     position: absolute;
-    top: -50%;
-    right: -50%;
-    width: 100%;
-    height: 100%;
+    bottom: -30%;
+    right: -30%;
+    width: 80%;
+    height: 80%;
     border-radius: 50%;
-    opacity: 0.15;
+    opacity: 0.08;
   }
   .share-card.yomi {
-    background: linear-gradient(160deg, var(--bg-primary) 40%, var(--yomi-dark));
-    border: 1px solid rgba(0,212,255,0.2);
+    background: linear-gradient(170deg, #FFFFFF 50%, var(--yomi-surface));
   }
   .share-card.yomi::before { background: var(--yomi-primary); }
   .share-card.bassar {
-    background: linear-gradient(160deg, var(--bg-primary) 40%, var(--bassar-dark));
-    border: 1px solid rgba(255,59,92,0.2);
+    background: linear-gradient(170deg, #FFFFFF 50%, var(--bassar-surface));
   }
   .share-card.bassar::before { background: var(--bassar-primary); }
   .share-card.nukuru {
-    background: linear-gradient(160deg, var(--bg-primary) 40%, var(--nukuru-dark));
-    border: 1px solid rgba(92,255,177,0.2);
+    background: linear-gradient(170deg, #FFFFFF 50%, var(--nukuru-surface));
   }
   .share-card.nukuru::before { background: var(--nukuru-primary); }
 
   .share-card-avatar {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
+    color: #fff;
   }
   .share-card-text {
     font-family: 'Zen Maru Gothic', sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.7;
+    color: var(--text-primary);
     position: relative;
     z-index: 1;
   }
@@ -778,9 +776,7 @@
     position: relative;
     z-index: 1;
   }
-  .share-card-stat {
-    font-family: 'Inter', monospace;
-  }
+  .share-card-stat { font-family: 'Inter', monospace; }
   .share-card-stat .stat-label {
     font-size: 10px;
     color: var(--text-tertiary);
@@ -801,7 +797,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
   .spacing-label {
     width: 80px;
@@ -813,13 +809,13 @@
   }
   .spacing-bar {
     height: 24px;
-    border-radius: 4px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     padding-left: 8px;
     font-size: 11px;
     font-family: 'Inter', monospace;
-    color: var(--bg-primary);
+    color: var(--text-inverse);
     font-weight: 600;
   }
 
@@ -838,8 +834,8 @@
   .radius-box {
     width: 72px;
     height: 72px;
-    background: var(--bg-tertiary);
-    border: 1.5px solid var(--text-tertiary);
+    background: var(--bg-inset);
+    border: 1.5px solid var(--border-default);
   }
   .radius-sample span {
     font-size: 11px;
@@ -854,7 +850,7 @@
     gap: 16px;
   }
   .anim-card {
-    background: var(--bg-secondary);
+    background: var(--bg-card);
     border-radius: var(--radius-l);
     padding: 20px;
     border: 1px solid var(--border-default);
@@ -892,7 +888,6 @@
     font-family: 'Inter', monospace;
     margin-top: 8px;
   }
-
   .anim-card:hover .anim-ball { animation-play-state: running; }
   @keyframes slideRight {
     0% { transform: translateX(-30px); }
@@ -923,7 +918,7 @@
   <!-- Header -->
   <header class="artboard-header">
     <h1>SNS Advisor</h1>
-    <p>Design System & Visual Artboard — v1.0</p>
+    <p>Design System & Visual Artboard — v2.0</p>
   </header>
 
   <!-- 1. Mood Board -->
@@ -931,10 +926,10 @@
     <h2 class="section-title">01 — Mood Board</h2>
     <div class="mood-grid">
       <div class="mood-card mc1">
-        <span>暗闇の中で光るデータ<br>Dark Canvas × Neon Glow</span>
+        <span>白いキャンバスに映えるキャラの色<br>Clean Canvas × Character Accent</span>
       </div>
       <div class="mood-card mc2">
-        <span>深夜のカフェ<br>親密で落ち着いた空間</span>
+        <span>カフェのような安心感<br>親しみやすいチャットUI</span>
       </div>
       <div class="mood-card mc3">
         <span>3つの個性が交差する<br>Character Spectrum</span>
@@ -944,14 +939,14 @@
       </div>
     </div>
     <div class="mood-keywords">
-      <span>夜空</span>
-      <span>ネオン</span>
-      <span>ホログラム</span>
-      <span>温かい光</span>
-      <span>呼吸するUI</span>
-      <span>親密な距離感</span>
+      <span>クリーン</span>
+      <span>モダン</span>
+      <span>余白</span>
+      <span>親しみやすい</span>
+      <span>LINE的会話感</span>
       <span>スクショ映え</span>
       <span>キャラが主役</span>
+      <span>シンプル</span>
     </div>
   </section>
 
@@ -959,31 +954,30 @@
   <section class="section">
     <h2 class="section-title">02 — Color Palette</h2>
 
-    <!-- Base & Text Colors -->
     <div class="color-section-grid">
       <div class="color-group">
         <h3>Base</h3>
         <div class="color-swatch-row">
-          <div class="color-swatch" style="background:#0D1117; color:#F0F6FC;">
-            <span>#0D1117</span>
-            <span class="label">bg-primary</span>
+          <div class="color-swatch" style="background:#FFFFFF; color:#111827;">
+            <span>#FFFFFF</span>
+            <span class="label">bg-page</span>
           </div>
-          <div class="color-swatch" style="background:#161B22; color:#F0F6FC;">
-            <span>#161B22</span>
-            <span class="label">bg-secondary</span>
+          <div class="color-swatch" style="background:#F9FAFB; color:#111827;">
+            <span>#F9FAFB</span>
+            <span class="label">bg-card</span>
           </div>
-          <div class="color-swatch" style="background:#21262D; color:#F0F6FC;">
-            <span>#21262D</span>
-            <span class="label">bg-tertiary</span>
+          <div class="color-swatch" style="background:#F3F4F6; color:#111827;">
+            <span>#F3F4F6</span>
+            <span class="label">bg-inset</span>
           </div>
         </div>
         <div class="color-swatch-row">
-          <div class="color-swatch" style="background:#30363D; color:#F0F6FC;">
-            <span>#30363D</span>
+          <div class="color-swatch" style="background:#E5E7EB; color:#111827;">
+            <span>#E5E7EB</span>
             <span class="label">border</span>
           </div>
-          <div class="color-swatch" style="background:#21262D; color:#F0F6FC;">
-            <span>#21262D</span>
+          <div class="color-swatch" style="background:#F3F4F6; color:#111827;">
+            <span>#F3F4F6</span>
             <span class="label">border-subtle</span>
           </div>
         </div>
@@ -991,36 +985,36 @@
       <div class="color-group">
         <h3>Text</h3>
         <div class="color-swatch-row">
-          <div class="color-swatch" style="background:#F0F6FC; color:#0D1117;">
-            <span>#F0F6FC</span>
+          <div class="color-swatch" style="background:#111827; color:#FFFFFF;">
+            <span>#111827</span>
             <span class="label">primary</span>
           </div>
-          <div class="color-swatch" style="background:#8B949E; color:#0D1117;">
-            <span>#8B949E</span>
+          <div class="color-swatch" style="background:#6B7280; color:#FFFFFF;">
+            <span>#6B7280</span>
             <span class="label">secondary</span>
           </div>
-          <div class="color-swatch" style="background:#484F58; color:#F0F6FC;">
-            <span>#484F58</span>
+          <div class="color-swatch" style="background:#9CA3AF; color:#FFFFFF;">
+            <span>#9CA3AF</span>
             <span class="label">tertiary</span>
           </div>
         </div>
       </div>
       <div class="color-group">
         <h3>Status</h3>
-        <div class="status-row" style="flex-wrap: wrap; gap: 8px;">
-          <div class="status-chip" style="background: rgba(63,185,80,0.15);">
+        <div class="status-row">
+          <div class="status-chip" style="background: rgba(16,185,129,0.1);">
             <div class="status-dot" style="background: var(--status-success);"></div>
             <span style="color: var(--status-success);">Success</span>
           </div>
-          <div class="status-chip" style="background: rgba(210,153,34,0.15);">
+          <div class="status-chip" style="background: rgba(245,158,11,0.1);">
             <div class="status-dot" style="background: var(--status-warning);"></div>
             <span style="color: var(--status-warning);">Warning</span>
           </div>
-          <div class="status-chip" style="background: rgba(248,81,73,0.15);">
+          <div class="status-chip" style="background: rgba(239,68,68,0.1);">
             <div class="status-dot" style="background: var(--status-danger);"></div>
             <span style="color: var(--status-danger);">Danger</span>
           </div>
-          <div class="status-chip" style="background: rgba(88,166,255,0.15);">
+          <div class="status-chip" style="background: rgba(59,130,246,0.1);">
             <div class="status-dot" style="background: var(--status-info);"></div>
             <span style="color: var(--status-info);">Info</span>
           </div>
@@ -1031,33 +1025,33 @@
     <!-- Character Color Bands -->
     <div class="char-color-bands">
       <div class="char-band">
-        <div class="char-band-header" style="background: var(--yomi-dark); color: var(--yomi-primary);">
-          ヨミ — Cyan System
+        <div class="char-band-header" style="background: var(--yomi-surface); color: var(--yomi-dark);">
+          ヨミ — Sky Blue
         </div>
         <div class="char-band-colors">
-          <div style="background: var(--yomi-primary); color: #0D1117;">#00D4FF</div>
-          <div style="background: var(--yomi-dark); color: var(--yomi-primary);">#0A2A3A</div>
-          <div style="background: var(--yomi-surface); color: var(--yomi-primary); border-right: 1px solid var(--border-default);">surface</div>
+          <div style="background: var(--yomi-primary); color: #fff;">#0EA5E9</div>
+          <div style="background: var(--yomi-light); color: var(--yomi-dark);">#E0F2FE</div>
+          <div style="background: var(--yomi-surface); color: var(--yomi-dark);">surface</div>
         </div>
       </div>
       <div class="char-band">
-        <div class="char-band-header" style="background: var(--bassar-dark); color: var(--bassar-primary);">
-          バッサー — Crimson System
+        <div class="char-band-header" style="background: var(--bassar-surface); color: var(--bassar-dark);">
+          バッサー — Rose
         </div>
         <div class="char-band-colors">
-          <div style="background: var(--bassar-primary); color: #fff;">#FF3B5C</div>
-          <div style="background: var(--bassar-dark); color: var(--bassar-primary);">#3A0A15</div>
-          <div style="background: var(--bassar-surface); color: var(--bassar-primary); border-right: 1px solid var(--border-default);">surface</div>
+          <div style="background: var(--bassar-primary); color: #fff;">#F43F5E</div>
+          <div style="background: var(--bassar-light); color: var(--bassar-dark);">#FFE4E6</div>
+          <div style="background: var(--bassar-surface); color: var(--bassar-dark);">surface</div>
         </div>
       </div>
       <div class="char-band">
-        <div class="char-band-header" style="background: var(--nukuru-dark); color: var(--nukuru-primary);">
-          ヌクル — Mint System
+        <div class="char-band-header" style="background: var(--nukuru-surface); color: var(--nukuru-dark);">
+          ヌクル — Emerald
         </div>
         <div class="char-band-colors">
-          <div style="background: var(--nukuru-primary); color: #0D1117;">#5CFFB1</div>
-          <div style="background: var(--nukuru-dark); color: var(--nukuru-primary);">#0A3A25</div>
-          <div style="background: var(--nukuru-surface); color: var(--nukuru-primary); border-right: 1px solid var(--border-default);">surface</div>
+          <div style="background: var(--nukuru-primary); color: #fff;">#10B981</div>
+          <div style="background: var(--nukuru-light); color: var(--nukuru-dark);">#D1FAE5</div>
+          <div style="background: var(--nukuru-surface); color: var(--nukuru-dark);">surface</div>
         </div>
       </div>
     </div>
@@ -1073,7 +1067,7 @@
         <div class="font-preview" style="font-family:'Noto Sans JP'; font-weight:700;">
           数字は嘘を<br>つかない
         </div>
-        <div class="font-desc">視認性が高くダークモードで映える。信頼感のあるゴシック体</div>
+        <div class="font-desc">視認性が高くクリーンな印象。信頼感のあるゴシック体</div>
       </div>
       <div class="font-card">
         <div class="font-name">Zen Maru Gothic — キャラ台詞</div>
@@ -1125,30 +1119,34 @@
     <h2 class="section-title">04 — Components</h2>
 
     <div class="component-grid">
-      <!-- Bubbles -->
+      <!-- Chat Bubbles (LINE-style) -->
       <div class="component-card">
-        <h3>Character Bubble</h3>
-        <div class="bubble yomi">
-          <div class="bubble-header">
-            <div class="bubble-avatar">ヨ</div>
-            <div class="bubble-name">ヨミ</div>
+        <h3>Character Chat</h3>
+        <div class="chat-thread">
+          <div class="chat-row">
+            <div class="chat-avatar yomi">ヨ</div>
+            <div class="chat-body">
+              <div class="chat-name yomi">ヨミ</div>
+              <div class="chat-bubble yomi">「この投稿、初速の傾きが異常値です。……いい意味で」</div>
+              <div class="chat-time">14:32</div>
+            </div>
           </div>
-          <div class="bubble-text">「この投稿、初速の傾きが異常値です。……いい意味で」</div>
-          <div class="bubble-footer"><button class="share-btn">シェア ↗</button></div>
-        </div>
-        <div class="bubble bassar">
-          <div class="bubble-header">
-            <div class="bubble-avatar">バ</div>
-            <div class="bubble-name">バッサー</div>
+          <div class="chat-row">
+            <div class="chat-avatar bassar">バ</div>
+            <div class="chat-body">
+              <div class="chat-name bassar">バッサー</div>
+              <div class="chat-bubble bassar">「で？ これ誰に向けて書いたの？ ターゲット見えてないよ」</div>
+              <div class="chat-time">14:33</div>
+            </div>
           </div>
-          <div class="bubble-text">「で？ これ誰に向けて書いたの？」</div>
-        </div>
-        <div class="bubble nukuru">
-          <div class="bubble-header">
-            <div class="bubble-avatar">ヌ</div>
-            <div class="bubble-name">ヌクル</div>
+          <div class="chat-row">
+            <div class="chat-avatar nukuru">ヌ</div>
+            <div class="chat-body">
+              <div class="chat-name nukuru">ヌクル</div>
+              <div class="chat-bubble nukuru">「今日もちゃんとここ来たね。……それだけでえらいよ」</div>
+              <div class="chat-time">14:35</div>
+            </div>
           </div>
-          <div class="bubble-text">「今日もちゃんとここ来たね。……それだけでえらいよ」</div>
         </div>
       </div>
 
@@ -1202,10 +1200,10 @@
         </div>
       </div>
 
-      <!-- Quiz Options & Tab Bar -->
+      <!-- Quiz & Tab Bar -->
       <div class="component-card">
-        <h3>Quiz Option & Tab Bar</h3>
-        <div class="quiz-options" style="margin-bottom: 24px;">
+        <h3>Quiz Option</h3>
+        <div class="quiz-options" style="margin-bottom: 20px;">
           <div class="quiz-option">A. めっちゃ見る</div>
           <div class="quiz-option selected">B. たまに見る</div>
           <div class="quiz-option">C. あんまり見ない</div>
@@ -1233,53 +1231,46 @@
     </div>
   </section>
 
-  <!-- 5. Theme Previews (Phone Mocks) -->
+  <!-- 5. Theme Preview (Phone Mocks) -->
   <section class="section">
     <h2 class="section-title">05 — Theme Preview — Character Switching</h2>
     <div class="theme-previews">
-      <!-- Yomi -->
-      <div>
+
+      <!-- Yomi Phone -->
+      <div class="phone-wrap">
         <div class="phone-mock">
           <div class="phone-notch"></div>
-          <div class="phone-status-bar"><span>9:41</span><span>⚡ 📶</span></div>
+          <div class="phone-status-bar"><span>9:41</span><span>📶 🔋</span></div>
           <div class="phone-content">
-            <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">ホーム</div>
-            <div class="phone-greeting" style="background: var(--yomi-dark); border: 1px solid rgba(0,212,255,0.15);">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-                <div style="width:24px; height:24px; border-radius:50%; background:var(--yomi-primary); color:#0D1117; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">ヨ</div>
-                <span style="font-size:11px; font-weight:600; color:var(--yomi-primary);">ヨミ</span>
+            <div class="phone-section-label">ホーム</div>
+            <div class="phone-greeting" style="background: var(--yomi-surface); border: 1px solid var(--yomi-light);">
+              <div class="phone-greeting-avatar" style="background: var(--yomi-primary);">ヨ</div>
+              <div class="phone-greeting-body">
+                <div class="phone-greeting-name" style="color: var(--yomi-primary);">ヨミ</div>
+                「昨夜の投稿、寝てる間に数字が動いてました」
               </div>
-              「昨夜の投稿、寝てる間に数字が動いてました。……報告します」
             </div>
             <div class="phone-stats">
               <div class="phone-stat">
                 <div class="ps-label">投稿数</div>
-                <div class="ps-value" style="color: var(--text-primary);">5</div>
+                <div class="ps-value">5</div>
                 <div class="ps-change" style="color: var(--status-success);">+2 ↑</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">リーチ</div>
-                <div class="ps-value" style="color: var(--text-primary);">12.3K</div>
-                <div class="ps-change" style="color: var(--status-success);">+18% ↑</div>
+                <div class="ps-value">12.3K</div>
+                <div class="ps-change" style="color: var(--status-success);">+18%</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">Eng率</div>
-                <div class="ps-value" style="color: var(--text-primary);">4.2%</div>
-                <div class="ps-change" style="color: var(--status-success);">+0.3 ↑</div>
+                <div class="ps-value">4.2%</div>
+                <div class="ps-change" style="color: var(--status-success);">+0.3</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">フォロワー</div>
-                <div class="ps-value" style="color: var(--text-primary);">+89</div>
+                <div class="ps-value">+89</div>
                 <div class="ps-change" style="color: var(--status-success);">+89</div>
               </div>
-            </div>
-            <div class="phone-posts-label">最近の投稿</div>
-            <div class="phone-posts">
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #1a2a3a, #0a1520);">
-                <div class="phone-post-badge" style="background: var(--yomi-primary); color: #0D1117; font-weight:700;">⭐</div>
-              </div>
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #1a2535, #0f1a25);"></div>
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #152030, #0a1520);"></div>
             </div>
           </div>
           <div class="phone-tab-bar">
@@ -1290,52 +1281,44 @@
           </div>
         </div>
         <div class="phone-theme-label" style="color: var(--yomi-primary);">ヨミ</div>
-        <div class="phone-theme-sub">クール・知的・静寂</div>
+        <div class="phone-theme-sub">クール・知的・冷静</div>
       </div>
 
-      <!-- Bassar -->
-      <div>
+      <!-- Bassar Phone -->
+      <div class="phone-wrap">
         <div class="phone-mock">
           <div class="phone-notch"></div>
-          <div class="phone-status-bar"><span>9:41</span><span>⚡ 📶</span></div>
+          <div class="phone-status-bar"><span>9:41</span><span>📶 🔋</span></div>
           <div class="phone-content">
-            <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">ホーム</div>
-            <div class="phone-greeting" style="background: var(--bassar-dark); border: 1px solid rgba(255,59,92,0.15);">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-                <div style="width:24px; height:24px; border-radius:50%; background:var(--bassar-primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">バ</div>
-                <span style="font-size:11px; font-weight:600; color:var(--bassar-primary);">バッサー</span>
+            <div class="phone-section-label">ホーム</div>
+            <div class="phone-greeting" style="background: var(--bassar-surface); border: 1px solid var(--bassar-light);">
+              <div class="phone-greeting-avatar" style="background: var(--bassar-primary);">バ</div>
+              <div class="phone-greeting-body">
+                <div class="phone-greeting-name" style="color: var(--bassar-primary);">バッサー</div>
+                「遅い。もうフィード流れてるよ。戦略聞く気ある？」
               </div>
-              「遅い。もうフォロワーのフィード流れてるよ。今日の戦略、聞く気ある？」
             </div>
             <div class="phone-stats">
               <div class="phone-stat">
                 <div class="ps-label">投稿数</div>
-                <div class="ps-value" style="color: var(--text-primary);">5</div>
+                <div class="ps-value">5</div>
                 <div class="ps-change" style="color: var(--status-success);">+2 ↑</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">リーチ</div>
-                <div class="ps-value" style="color: var(--text-primary);">12.3K</div>
-                <div class="ps-change" style="color: var(--status-success);">+18% ↑</div>
+                <div class="ps-value">12.3K</div>
+                <div class="ps-change" style="color: var(--status-success);">+18%</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">Eng率</div>
-                <div class="ps-value" style="color: var(--text-primary);">4.2%</div>
-                <div class="ps-change" style="color: var(--status-success);">+0.3 ↑</div>
+                <div class="ps-value">4.2%</div>
+                <div class="ps-change" style="color: var(--status-success);">+0.3</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">フォロワー</div>
-                <div class="ps-value" style="color: var(--text-primary);">+89</div>
+                <div class="ps-value">+89</div>
                 <div class="ps-change" style="color: var(--status-success);">+89</div>
               </div>
-            </div>
-            <div class="phone-posts-label">最近の投稿</div>
-            <div class="phone-posts">
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #3a1a20, #200a10);">
-                <div class="phone-post-badge" style="background: var(--bassar-primary); color: #fff; font-weight:700;">⭐</div>
-              </div>
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #351520, #1a0a10);"></div>
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #30101a, #150a0e);"></div>
             </div>
           </div>
           <div class="phone-tab-bar">
@@ -1346,52 +1329,44 @@
           </div>
         </div>
         <div class="phone-theme-label" style="color: var(--bassar-primary);">バッサー</div>
-        <div class="phone-theme-sub">熱い・鋭い・エネルギッシュ</div>
+        <div class="phone-theme-sub">情熱的・鋭い・ストレート</div>
       </div>
 
-      <!-- Nukuru -->
-      <div>
+      <!-- Nukuru Phone -->
+      <div class="phone-wrap">
         <div class="phone-mock">
           <div class="phone-notch"></div>
-          <div class="phone-status-bar"><span>9:41</span><span>⚡ 📶</span></div>
+          <div class="phone-status-bar"><span>9:41</span><span>📶 🔋</span></div>
           <div class="phone-content">
-            <div style="font-size:11px; color:var(--text-secondary); font-weight:600;">ホーム</div>
-            <div class="phone-greeting" style="background: var(--nukuru-dark); border: 1px solid rgba(92,255,177,0.15);">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
-                <div style="width:24px; height:24px; border-radius:50%; background:var(--nukuru-primary); color:#0D1117; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700;">ヌ</div>
-                <span style="font-size:11px; font-weight:600; color:var(--nukuru-primary);">ヌクル</span>
+            <div class="phone-section-label">ホーム</div>
+            <div class="phone-greeting" style="background: var(--nukuru-surface); border: 1px solid var(--nukuru-light);">
+              <div class="phone-greeting-avatar" style="background: var(--nukuru-primary);">ヌ</div>
+              <div class="phone-greeting-body">
+                <div class="phone-greeting-name" style="color: var(--nukuru-primary);">ヌクル</div>
+                「おはよう。今日もここ来たね。……えらいよ」
               </div>
-              「おはよう。今日もちゃんとここ来たね。……それだけでえらいよ」
             </div>
             <div class="phone-stats">
               <div class="phone-stat">
                 <div class="ps-label">投稿数</div>
-                <div class="ps-value" style="color: var(--text-primary);">5</div>
+                <div class="ps-value">5</div>
                 <div class="ps-change" style="color: var(--status-success);">+2 ↑</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">リーチ</div>
-                <div class="ps-value" style="color: var(--text-primary);">12.3K</div>
-                <div class="ps-change" style="color: var(--status-success);">+18% ↑</div>
+                <div class="ps-value">12.3K</div>
+                <div class="ps-change" style="color: var(--status-success);">+18%</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">Eng率</div>
-                <div class="ps-value" style="color: var(--text-primary);">4.2%</div>
-                <div class="ps-change" style="color: var(--status-success);">+0.3 ↑</div>
+                <div class="ps-value">4.2%</div>
+                <div class="ps-change" style="color: var(--status-success);">+0.3</div>
               </div>
               <div class="phone-stat">
                 <div class="ps-label">フォロワー</div>
-                <div class="ps-value" style="color: var(--text-primary);">+89</div>
+                <div class="ps-value">+89</div>
                 <div class="ps-change" style="color: var(--status-success);">+89</div>
               </div>
-            </div>
-            <div class="phone-posts-label">最近の投稿</div>
-            <div class="phone-posts">
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #1a3a28, #0a200f);">
-                <div class="phone-post-badge" style="background: var(--nukuru-primary); color: #0D1117; font-weight:700;">⭐</div>
-              </div>
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #153520, #0a1a0f);"></div>
-              <div class="phone-post-thumb" style="background: linear-gradient(135deg, #10301a, #0a150e);"></div>
             </div>
           </div>
           <div class="phone-tab-bar">
@@ -1412,8 +1387,8 @@
     <h2 class="section-title">06 — Share Card (Screenshot-ready)</h2>
     <div class="share-cards">
       <div class="share-card yomi">
-        <div class="share-card-avatar" style="background: var(--yomi-primary); color: #0D1117;">ヨ</div>
-        <div class="share-card-text" style="color: var(--text-primary);">
+        <div class="share-card-avatar" style="background: var(--yomi-primary);">ヨ</div>
+        <div class="share-card-text">
           「……すごいじゃないですか。過去最高のエンゲージメント率です」
         </div>
         <div class="share-card-footer">
@@ -1428,8 +1403,8 @@
       </div>
 
       <div class="share-card bassar">
-        <div class="share-card-avatar" style="background: var(--bassar-primary); color: #fff;">バ</div>
-        <div class="share-card-text" style="color: var(--text-primary);">
+        <div class="share-card-avatar" style="background: var(--bassar-primary);">バ</div>
+        <div class="share-card-text">
           「……やるじゃん。（……ずっとこのレベルでやってよね）」
         </div>
         <div class="share-card-footer">
@@ -1444,14 +1419,14 @@
       </div>
 
       <div class="share-card nukuru">
-        <div class="share-card-avatar" style="background: var(--nukuru-primary); color: #0D1117;">ヌ</div>
-        <div class="share-card-text" style="color: var(--text-primary);">
+        <div class="share-card-avatar" style="background: var(--nukuru-primary);">ヌ</div>
+        <div class="share-card-text">
           「おめでとう。……ここまで来るの、大変だったよね。わたし、全部見てたよ」
         </div>
         <div class="share-card-footer">
           <div class="share-card-stat">
             <div class="stat-label">30 Days Streak</div>
-            <div class="stat-value" style="color: var(--nukuru-primary);">🎉 達成</div>
+            <div class="stat-value" style="color: var(--nukuru-primary);">達成</div>
           </div>
           <div class="share-card-brand">
             #SNSアドバイザー<br>sns-advisor.app
