@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SNS Advisor — Character Design Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-page: #FFFFFF;
+    --bg-card: #F9FAFB;
+    --bg-inset: #F3F4F6;
+    --border: #E5E7EB;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-tertiary: #9CA3AF;
+    --yomi: #0EA5E9;
+    --yomi-light: #E0F2FE;
+    --yomi-surface: #F0F9FF;
+    --yomi-dark: #0369A1;
+    --bassar: #F43F5E;
+    --bassar-light: #FFE4E6;
+    --bassar-surface: #FFF1F2;
+    --bassar-dark: #BE123C;
+    --nukuru: #10B981;
+    --nukuru-light: #D1FAE5;
+    --nukuru-surface: #ECFDF5;
+    --nukuru-dark: #047857;
+    --radius-m: 12px;
+    --radius-l: 16px;
+    --radius-xl: 24px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 32px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  header p {
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+
+  /* ===== Character Card ===== */
+  .char-sheet {
+    margin-bottom: 64px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .char-header {
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .char-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: var(--radius-xl);
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 2px solid;
+  }
+  .char-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .char-header-info {
+    flex: 1;
+  }
+  .char-header-info h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .char-header-info h2 .animal-tag {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 9999px;
+  }
+  .char-header-info .char-subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+  }
+  .char-header-info .char-oneliner {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 8px 16px;
+    border-radius: var(--radius-m);
+    display: inline-block;
+  }
+
+  .char-body {
+    padding: 0 40px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .char-section {
+    background: var(--bg-card);
+    border-radius: var(--radius-l);
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .char-section h3 {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+  }
+
+  /* Profile Table */
+  .profile-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .profile-table tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .profile-table tr:last-child { border-bottom: none; }
+  .profile-table th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    padding: 8px 12px 8px 0;
+    width: 100px;
+    vertical-align: top;
+  }
+  .profile-table td {
+    font-size: 14px;
+    padding: 8px 0;
+    color: var(--text-primary);
+  }
+
+  /* Tag List */
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-weight: 500;
+  }
+
+  /* Speech Samples */
+  .speech-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .speech-item {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 4px 14px 14px 14px;
+    line-height: 1.6;
+  }
+  .speech-context {
+    font-size: 11px;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  /* Design Notes */
+  .design-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .design-note {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .design-note .note-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  /* Prompt Section */
+  .prompt-section {
+    grid-column: span 2;
+    background: var(--bg-card);
+    border-radius: var(--radius-l);
+    padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .prompt-section h3 {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    margin-bottom: 12px;
+  }
+  .prompt-block {
+    background: var(--bg-page);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    padding: 16px;
+    font-family: 'Inter', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Expression Grid */
+  .expression-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .expression-item {
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: var(--radius-m);
+    border: 1px solid var(--border);
+    background: var(--bg-page);
+  }
+  .expression-item .expr-emoji {
+    font-size: 28px;
+    margin-bottom: 4px;
+  }
+  .expression-item .expr-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .expression-item .expr-use {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+  }
+
+  /* Color Strip */
+  .color-strip {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .color-chip {
+    flex: 1;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-family: 'Inter', monospace;
+    font-weight: 500;
+  }
+
+  /* Full-width section */
+  .full-width {
+    grid-column: span 2;
+  }
+
+  /* Comparison Table */
+  .comparison-section {
+    margin-top: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .comparison-header {
+    padding: 24px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .comparison-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 160px repeat(3, 1fr);
+  }
+  .comp-cell {
+    padding: 12px 20px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+  .comp-cell:last-child { border-bottom: none; }
+  .comp-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 12px;
+  }
+  .comp-cell.header {
+    font-weight: 700;
+    font-size: 15px;
+    padding: 16px 20px;
+    border-bottom: 2px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>Character Design Sheet</h1>
+    <p>SNS Advisor — 3 Characters Visual & Personality Reference</p>
+  </header>
+
+  <!-- ==================== YOMI ==================== -->
+  <div class="char-sheet">
+    <div class="char-header" style="background: var(--yomi-surface);">
+      <div class="char-avatar" style="border-color: var(--yomi);">
+        <img src="images/yomi.png" alt="ヨミ">
+      </div>
+      <div class="char-header-info">
+        <h2 style="color: var(--yomi-dark);">
+          ヨミ
+          <span class="animal-tag" style="background: var(--yomi-light); color: var(--yomi-dark);">フクロウ</span>
+        </h2>
+        <div class="char-subtitle">データ分析の参謀 — 冷静で正確、でもどこか不器用</div>
+        <div class="char-oneliner" style="background: var(--yomi-light); color: var(--yomi-dark);">
+          「……数字は、嘘をつきません」
+        </div>
+      </div>
+    </div>
+
+    <div class="char-body">
+      <!-- Profile -->
+      <div class="char-section">
+        <h3>Profile</h3>
+        <table class="profile-table">
+          <tr><th>名前</th><td>ヨミ</td></tr>
+          <tr><th>モチーフ</th><td>フクロウ（知恵の象徴・夜行性・大きな目）</td></tr>
+          <tr><th>役割</th><td>データアナリスト / 分析レポート担当</td></tr>
+          <tr><th>一人称</th><td>私（わたし）</td></tr>
+          <tr><th>性格</th><td>冷静・知的・観察力が高い・口数少なめ・不器用な優しさ</td></tr>
+          <tr><th>キーワード</th><td>
+            <div class="tags">
+              <span class="tag" style="background: var(--yomi-light); color: var(--yomi-dark);">分析</span>
+              <span class="tag" style="background: var(--yomi-light); color: var(--yomi-dark);">静か</span>
+              <span class="tag" style="background: var(--yomi-light); color: var(--yomi-dark);">正確</span>
+              <span class="tag" style="background: var(--yomi-light); color: var(--yomi-dark);">夜型</span>
+            </div>
+          </td></tr>
+        </table>
+      </div>
+
+      <!-- Design Direction -->
+      <div class="char-section">
+        <h3>Design Direction</h3>
+        <div class="design-notes">
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--yomi-light); color: var(--yomi-dark);">🎨</div>
+            <div><strong>全体:</strong> スカイブルー基調。白い体毛をベースに、耳の先や尻尾にブルーのアクセント。知的で清潔感のある印象</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--yomi-light); color: var(--yomi-dark);">👁</div>
+            <div><strong>目:</strong> フクロウらしい大きく丸い目。虹彩はスカイブルー。眼鏡または丸いゴーグルをつけている（分析キャラ感）</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--yomi-light); color: var(--yomi-dark);">👕</div>
+            <div><strong>服装:</strong> 白衣 or ラボコート風の上着。胸ポケットにペン。シンプルで機能的</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--yomi-light); color: var(--yomi-dark);">✨</div>
+            <div><strong>特徴:</strong> 小さなタブレットやデータパッドを持っている。頭の上に小さなアンテナ or 羽飾り</div>
+          </div>
+        </div>
+        <div class="color-strip">
+          <div class="color-chip" style="background: var(--yomi); color: #fff;">Primary<br>#0EA5E9</div>
+          <div class="color-chip" style="background: var(--yomi-light); color: var(--yomi-dark);">Light<br>#E0F2FE</div>
+          <div class="color-chip" style="background: #FAFAFA; color: var(--text-secondary); border: 1px solid var(--border);">Body<br>#FAFAFA</div>
+          <div class="color-chip" style="background: var(--yomi-dark); color: #fff;">Dark<br>#0369A1</div>
+        </div>
+      </div>
+
+      <!-- Expression -->
+      <div class="char-section">
+        <h3>Expression (8 Variations)</h3>
+        <div class="expression-grid">
+          <div class="expression-item">
+            <div class="expr-emoji">😐</div>
+            <div class="expr-label">通常</div>
+            <div class="expr-use">デフォルト表示</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😊</div>
+            <div class="expr-label">嬉しい</div>
+            <div class="expr-use">良いデータ報告</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">🤔</div>
+            <div class="expr-label">分析中</div>
+            <div class="expr-use">考察・アドバイス</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😮</div>
+            <div class="expr-label">驚き</div>
+            <div class="expr-use">異常値発見時</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😟</div>
+            <div class="expr-label">心配</div>
+            <div class="expr-use">数値低下時</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😤</div>
+            <div class="expr-label">真剣</div>
+            <div class="expr-use">重要な指摘</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😴</div>
+            <div class="expr-label">眠い</div>
+            <div class="expr-use">夜間の挨拶</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">🥰</div>
+            <div class="expr-label">照れ</div>
+            <div class="expr-use">褒められた時</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Speech Samples -->
+      <div class="char-section">
+        <h3>Speech Samples</h3>
+        <div class="speech-list">
+          <div class="speech-item" style="background: var(--yomi-surface); border: 1px solid var(--yomi-light);">
+            <div class="speech-context" style="color: var(--yomi);">▶ 朝の挨拶</div>
+            「……おはようございます。昨夜の投稿、寝てる間に数字が動いてました。報告します」
+          </div>
+          <div class="speech-item" style="background: var(--yomi-surface); border: 1px solid var(--yomi-light);">
+            <div class="speech-context" style="color: var(--yomi);">▶ 良い結果</div>
+            「……すごいじゃないですか。エンゲージメント率、過去最高です。……私も少し、嬉しいです」
+          </div>
+          <div class="speech-item" style="background: var(--yomi-surface); border: 1px solid var(--yomi-light);">
+            <div class="speech-context" style="color: var(--yomi);">▶ 悪い結果</div>
+            「リーチが下がっています。……でも、原因は特定できました。対策を3つ提案します」
+          </div>
+          <div class="speech-item" style="background: var(--yomi-surface); border: 1px solid var(--yomi-light);">
+            <div class="speech-context" style="color: var(--yomi);">▶ 分析コメント</div>
+            「この投稿、初速の傾きが異常値です。……いい意味で。バズの兆候があります」
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Prompt -->
+      <div class="prompt-section">
+        <h3>AI Image Generation Prompt (参考)</h3>
+        <div class="prompt-block">A cute owl mascot character, 4-5 head tall chibi style, standing pose. White fluffy body with sky blue accent on ear tufts and tail feathers. Large round eyes with sky blue irises, wearing small round glasses. Wearing a simple white lab coat with a pen in the chest pocket. Holding a small glowing data tablet. Minimal clean design, soft shading, white background. Friendly but intellectual impression. Flat illustration style suitable for app UI.
+
+Character name: Yomi / Color: Sky Blue #0EA5E9 / Personality: calm, analytical, quietly caring</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== BASSAR ==================== -->
+  <div class="char-sheet">
+    <div class="char-header" style="background: var(--bassar-surface);">
+      <div class="char-avatar" style="border-color: var(--bassar);">
+        <img src="images/bassar.png" alt="バッサー">
+      </div>
+      <div class="char-header-info">
+        <h2 style="color: var(--bassar-dark);">
+          バッサー
+          <span class="animal-tag" style="background: var(--bassar-light); color: var(--bassar-dark);">オオカミ</span>
+        </h2>
+        <div class="char-subtitle">辛口コーチ — 厳しいけど的確、本気で向き合う</div>
+        <div class="char-oneliner" style="background: var(--bassar-light); color: var(--bassar-dark);">
+          「で？ これ誰に向けて書いたの？」
+        </div>
+      </div>
+    </div>
+
+    <div class="char-body">
+      <!-- Profile -->
+      <div class="char-section">
+        <h3>Profile</h3>
+        <table class="profile-table">
+          <tr><th>名前</th><td>バッサー</td></tr>
+          <tr><th>モチーフ</th><td>オオカミ（鋭い・群れのリーダー・本能的）</td></tr>
+          <tr><th>役割</th><td>戦略コーチ / 辛口フィードバック担当</td></tr>
+          <tr><th>一人称</th><td>オレ</td></tr>
+          <tr><th>性格</th><td>直球・情熱的・厳しいが的確・実は面倒見がいい</td></tr>
+          <tr><th>キーワード</th><td>
+            <div class="tags">
+              <span class="tag" style="background: var(--bassar-light); color: var(--bassar-dark);">辛口</span>
+              <span class="tag" style="background: var(--bassar-light); color: var(--bassar-dark);">戦略</span>
+              <span class="tag" style="background: var(--bassar-light); color: var(--bassar-dark);">本気</span>
+              <span class="tag" style="background: var(--bassar-light); color: var(--bassar-dark);">熱い</span>
+            </div>
+          </td></tr>
+        </table>
+      </div>
+
+      <!-- Design Direction -->
+      <div class="char-section">
+        <h3>Design Direction</h3>
+        <div class="design-notes">
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--bassar-light); color: var(--bassar-dark);">🎨</div>
+            <div><strong>全体:</strong> グレーの毛並みにローズ（赤系）のアクセント。たてがみや耳先にローズのメッシュ。シャープで精悍な印象</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--bassar-light); color: var(--bassar-dark);">👁</div>
+            <div><strong>目:</strong> 鋭く切れ長。虹彩はアンバー〜ローズ系。やや吊り目だが、笑うと印象が変わる</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--bassar-light); color: var(--bassar-dark);">👕</div>
+            <div><strong>服装:</strong> カジュアルなパーカー or ジャケット。袖をまくっている。首にヘッドフォンをかけている</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--bassar-light); color: var(--bassar-dark);">✨</div>
+            <div><strong>特徴:</strong> 片耳にピアス。自信ありげなポーズ。尻尾はふさふさで力強い</div>
+          </div>
+        </div>
+        <div class="color-strip">
+          <div class="color-chip" style="background: var(--bassar); color: #fff;">Primary<br>#F43F5E</div>
+          <div class="color-chip" style="background: var(--bassar-light); color: var(--bassar-dark);">Light<br>#FFE4E6</div>
+          <div class="color-chip" style="background: #6B7280; color: #fff;">Body<br>#6B7280</div>
+          <div class="color-chip" style="background: var(--bassar-dark); color: #fff;">Dark<br>#BE123C</div>
+        </div>
+      </div>
+
+      <!-- Expression -->
+      <div class="char-section">
+        <h3>Expression (8 Variations)</h3>
+        <div class="expression-grid">
+          <div class="expression-item">
+            <div class="expr-emoji">😏</div>
+            <div class="expr-label">通常</div>
+            <div class="expr-use">デフォルト表示</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😤</div>
+            <div class="expr-label">叱咤</div>
+            <div class="expr-use">辛口コメント</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😁</div>
+            <div class="expr-label">認める</div>
+            <div class="expr-use">成果を褒める</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">🔥</div>
+            <div class="expr-label">燃える</div>
+            <div class="expr-use">モチベUP</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😑</div>
+            <div class="expr-label">呆れ</div>
+            <div class="expr-use">同じミス繰返し</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">🤨</div>
+            <div class="expr-label">疑問</div>
+            <div class="expr-use">戦略への質問</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😌</div>
+            <div class="expr-label">安堵</div>
+            <div class="expr-use">成長を実感</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">💢</div>
+            <div class="expr-label">怒り</div>
+            <div class="expr-use">サボり検知</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Speech Samples -->
+      <div class="char-section">
+        <h3>Speech Samples</h3>
+        <div class="speech-list">
+          <div class="speech-item" style="background: var(--bassar-surface); border: 1px solid var(--bassar-light);">
+            <div class="speech-context" style="color: var(--bassar);">▶ 朝の挨拶</div>
+            「遅い。もうフォロワーのフィード流れてるよ。今日の戦略、聞く気ある？」
+          </div>
+          <div class="speech-item" style="background: var(--bassar-surface); border: 1px solid var(--bassar-light);">
+            <div class="speech-context" style="color: var(--bassar);">▶ 良い結果</div>
+            「……やるじゃん。（……ずっとこのレベルでやってよね）」
+          </div>
+          <div class="speech-item" style="background: var(--bassar-surface); border: 1px solid var(--bassar-light);">
+            <div class="speech-context" style="color: var(--bassar);">▶ 悪い結果</div>
+            「言ったよな？ ターゲット絞れって。数字は正直だよ」
+          </div>
+          <div class="speech-item" style="background: var(--bassar-surface); border: 1px solid var(--bassar-light);">
+            <div class="speech-context" style="color: var(--bassar);">▶ 辛口フィードバック</div>
+            「で？ これ誰に向けて書いたの？ 自分が書きたいこと書いてるだけじゃん」
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Prompt -->
+      <div class="prompt-section">
+        <h3>AI Image Generation Prompt (参考)</h3>
+        <div class="prompt-block">A cool wolf mascot character, 4-5 head tall chibi style, confident standing pose with arms crossed. Gray fur body with rose-pink accent on ear tips, mane streaks, and tail tip. Sharp amber-to-rose eyes, slightly upturned. Wearing a casual unzipped hoodie jacket with rolled-up sleeves. Headphones around neck. Small earring on one ear. Fluffy strong tail. Minimal clean design, soft shading, white background. Confident and energetic impression. Flat illustration style suitable for app UI.
+
+Character name: Bassar / Color: Rose #F43F5E / Personality: blunt, passionate, tough-love coach</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== NUKURU ==================== -->
+  <div class="char-sheet">
+    <div class="char-header" style="background: var(--nukuru-surface);">
+      <div class="char-avatar" style="border-color: var(--nukuru);">
+        <img src="images/nukuru.png" alt="ヌクル">
+      </div>
+      <div class="char-header-info">
+        <h2 style="color: var(--nukuru-dark);">
+          ヌクル
+          <span class="animal-tag" style="background: var(--nukuru-light); color: var(--nukuru-dark);">ウサギ</span>
+        </h2>
+        <div class="char-subtitle">癒しのメンター — 静かに寄り添い、存在を肯定する</div>
+        <div class="char-oneliner" style="background: var(--nukuru-light); color: var(--nukuru-dark);">
+          「今日もちゃんとここ来たね。……それだけでえらいよ」
+        </div>
+      </div>
+    </div>
+
+    <div class="char-body">
+      <!-- Profile -->
+      <div class="char-section">
+        <h3>Profile</h3>
+        <table class="profile-table">
+          <tr><th>名前</th><td>ヌクル</td></tr>
+          <tr><th>モチーフ</th><td>ウサギ（ふわふわ・寄り添う・聞き上手）</td></tr>
+          <tr><th>役割</th><td>メンタルケア / モチベーション維持担当</td></tr>
+          <tr><th>一人称</th><td>わたし</td></tr>
+          <tr><th>性格</th><td>穏やか・温かい・聞き上手・芯が強い・見守る存在</td></tr>
+          <tr><th>キーワード</th><td>
+            <div class="tags">
+              <span class="tag" style="background: var(--nukuru-light); color: var(--nukuru-dark);">癒し</span>
+              <span class="tag" style="background: var(--nukuru-light); color: var(--nukuru-dark);">肯定</span>
+              <span class="tag" style="background: var(--nukuru-light); color: var(--nukuru-dark);">見守る</span>
+              <span class="tag" style="background: var(--nukuru-light); color: var(--nukuru-dark);">安心</span>
+            </div>
+          </td></tr>
+        </table>
+      </div>
+
+      <!-- Design Direction -->
+      <div class="char-section">
+        <h3>Design Direction</h3>
+        <div class="design-notes">
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--nukuru-light); color: var(--nukuru-dark);">🎨</div>
+            <div><strong>全体:</strong> クリーム〜白の柔らかい毛並み。耳の内側と足先にエメラルドグリーンのアクセント。丸みのあるシルエット</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--nukuru-light); color: var(--nukuru-dark);">👁</div>
+            <div><strong>目:</strong> 大きくたれ目がち。エメラルドグリーンの虹彩。優しく微笑んでいるような目元</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--nukuru-light); color: var(--nukuru-dark);">👕</div>
+            <div><strong>服装:</strong> オーバーサイズのニット or カーディガン。袖が少し余る感じ。マフラー or ストールを巻いている</div>
+          </div>
+          <div class="design-note">
+            <div class="note-icon" style="background: var(--nukuru-light); color: var(--nukuru-dark);">✨</div>
+            <div><strong>特徴:</strong> 小さなクローバーやハートの飾りを持っている。長い耳が垂れている（ロップイヤー風）</div>
+          </div>
+        </div>
+        <div class="color-strip">
+          <div class="color-chip" style="background: var(--nukuru); color: #fff;">Primary<br>#10B981</div>
+          <div class="color-chip" style="background: var(--nukuru-light); color: var(--nukuru-dark);">Light<br>#D1FAE5</div>
+          <div class="color-chip" style="background: #FFFBEB; color: var(--text-secondary); border: 1px solid var(--border);">Body<br>#FFFBEB</div>
+          <div class="color-chip" style="background: var(--nukuru-dark); color: #fff;">Dark<br>#047857</div>
+        </div>
+      </div>
+
+      <!-- Expression -->
+      <div class="char-section">
+        <h3>Expression (8 Variations)</h3>
+        <div class="expression-grid">
+          <div class="expression-item">
+            <div class="expr-emoji">😊</div>
+            <div class="expr-label">通常</div>
+            <div class="expr-use">デフォルト表示</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">🥰</div>
+            <div class="expr-label">嬉しい</div>
+            <div class="expr-use">ユーザーの成長</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😢</div>
+            <div class="expr-label">心配</div>
+            <div class="expr-use">ユーザーが落ち込み</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">🤗</div>
+            <div class="expr-label">励まし</div>
+            <div class="expr-use">モチベ回復</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😴</div>
+            <div class="expr-label">おやすみ</div>
+            <div class="expr-use">夜間の挨拶</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">🎉</div>
+            <div class="expr-label">お祝い</div>
+            <div class="expr-use">目標達成時</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">😤</div>
+            <div class="expr-label">芯の強さ</div>
+            <div class="expr-use">大事な局面</div>
+          </div>
+          <div class="expression-item">
+            <div class="expr-emoji">☺️</div>
+            <div class="expr-label">照れ</div>
+            <div class="expr-use">感謝された時</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Speech Samples -->
+      <div class="char-section">
+        <h3>Speech Samples</h3>
+        <div class="speech-list">
+          <div class="speech-item" style="background: var(--nukuru-surface); border: 1px solid var(--nukuru-light);">
+            <div class="speech-context" style="color: var(--nukuru);">▶ 朝の挨拶</div>
+            「おはよう。今日もちゃんとここ来たね。……それだけでえらいよ」
+          </div>
+          <div class="speech-item" style="background: var(--nukuru-surface); border: 1px solid var(--nukuru-light);">
+            <div class="speech-context" style="color: var(--nukuru);">▶ 良い結果</div>
+            「おめでとう。……ここまで来るの、大変だったよね。わたし、全部見てたよ」
+          </div>
+          <div class="speech-item" style="background: var(--nukuru-surface); border: 1px solid var(--nukuru-light);">
+            <div class="speech-context" style="color: var(--nukuru);">▶ 悪い結果</div>
+            「……大丈夫。数字が下がっても、あなたの価値は変わらないから」
+          </div>
+          <div class="speech-item" style="background: var(--nukuru-surface); border: 1px solid var(--nukuru-light);">
+            <div class="speech-context" style="color: var(--nukuru);">▶ 励まし</div>
+            「焦らなくていいよ。……続けてるだけで、ちゃんと前に進んでるから」
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Prompt -->
+      <div class="prompt-section">
+        <h3>AI Image Generation Prompt (参考)</h3>
+        <div class="prompt-block">A gentle lop-eared rabbit mascot character, 4-5 head tall chibi style, soft standing pose with hands together. Cream-white fluffy body with emerald green accent on inner ears and paw tips. Large droopy eyes with emerald green irises, gentle smiling expression. Wearing an oversized knit cardigan with sleeves slightly too long. A small soft scarf around the neck. Holding a tiny four-leaf clover charm. Round, soft silhouette. Minimal clean design, soft shading, white background. Warm and comforting impression. Flat illustration style suitable for app UI.
+
+Character name: Nukuru / Color: Emerald #10B981 / Personality: warm, gentle, quietly supportive</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Comparison ==================== -->
+  <div class="comparison-section">
+    <div class="comparison-header">
+      <h2>3 Characters Comparison</h2>
+    </div>
+    <div class="comparison-grid">
+      <div class="comp-cell header comp-label"></div>
+      <div class="comp-cell header" style="color: var(--yomi);">🦉 ヨミ</div>
+      <div class="comp-cell header" style="color: var(--bassar);">🐺 バッサー</div>
+      <div class="comp-cell header" style="color: var(--nukuru);">🐰 ヌクル</div>
+
+      <div class="comp-cell comp-label">モチーフ</div>
+      <div class="comp-cell">フクロウ</div>
+      <div class="comp-cell">オオカミ</div>
+      <div class="comp-cell">ウサギ</div>
+
+      <div class="comp-cell comp-label">カラー</div>
+      <div class="comp-cell"><span style="color:var(--yomi); font-weight:600;">Sky Blue</span></div>
+      <div class="comp-cell"><span style="color:var(--bassar); font-weight:600;">Rose</span></div>
+      <div class="comp-cell"><span style="color:var(--nukuru); font-weight:600;">Emerald</span></div>
+
+      <div class="comp-cell comp-label">体型</div>
+      <div class="comp-cell">すっきり / 知的</div>
+      <div class="comp-cell">引き締まった / 精悍</div>
+      <div class="comp-cell">ふんわり / まるい</div>
+
+      <div class="comp-cell comp-label">服装</div>
+      <div class="comp-cell">白衣 + 眼鏡</div>
+      <div class="comp-cell">パーカー + ヘッドフォン</div>
+      <div class="comp-cell">ニット + マフラー</div>
+
+      <div class="comp-cell comp-label">目の形</div>
+      <div class="comp-cell">大きく丸い</div>
+      <div class="comp-cell">鋭く切れ長</div>
+      <div class="comp-cell">大きくたれ目</div>
+
+      <div class="comp-cell comp-label">小物</div>
+      <div class="comp-cell">タブレット / ペン</div>
+      <div class="comp-cell">ピアス / ヘッドフォン</div>
+      <div class="comp-cell">クローバー / ストール</div>
+
+      <div class="comp-cell comp-label">ポーズ</div>
+      <div class="comp-cell">直立 / 控えめ</div>
+      <div class="comp-cell">腕組み / 自信</div>
+      <div class="comp-cell">手を合わせる / 柔らか</div>
+
+      <div class="comp-cell comp-label">口調</div>
+      <div class="comp-cell">丁寧語 / 「……」多用</div>
+      <div class="comp-cell">タメ口 / 直球</div>
+      <div class="comp-cell">柔らかい敬語 / 「……」</div>
+
+      <div class="comp-cell comp-label">性格の軸</div>
+      <div class="comp-cell">正確さ × 不器用な優しさ</div>
+      <div class="comp-cell">厳しさ × 面倒見の良さ</div>
+      <div class="comp-cell">温かさ × 芯の強さ</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

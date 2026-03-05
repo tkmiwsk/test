@@ -384,6 +384,12 @@
     font-weight: 700;
     flex-shrink: 0;
     color: var(--text-inverse);
+    overflow: hidden;
+  }
+  .chat-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .chat-body {
     max-width: 80%;
@@ -649,6 +655,12 @@
     font-weight: 700;
     color: #fff;
     flex-shrink: 0;
+    overflow: hidden;
+  }
+  .phone-greeting-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .phone-greeting-body {
     flex: 1;
@@ -760,6 +772,12 @@
     font-size: 18px;
     font-weight: 700;
     color: #fff;
+    overflow: hidden;
+  }
+  .share-card-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .share-card-text {
     font-family: 'Zen Maru Gothic', sans-serif;
@@ -1124,7 +1142,7 @@
         <h3>Character Chat</h3>
         <div class="chat-thread">
           <div class="chat-row">
-            <div class="chat-avatar yomi">ヨ</div>
+            <div class="chat-avatar yomi"><img src="images/yomi.png" alt="ヨミ"></div>
             <div class="chat-body">
               <div class="chat-name yomi">ヨミ</div>
               <div class="chat-bubble yomi">「この投稿、初速の傾きが異常値です。……いい意味で」</div>
@@ -1132,7 +1150,7 @@
             </div>
           </div>
           <div class="chat-row">
-            <div class="chat-avatar bassar">バ</div>
+            <div class="chat-avatar bassar"><img src="images/bassar.png" alt="バッサー"></div>
             <div class="chat-body">
               <div class="chat-name bassar">バッサー</div>
               <div class="chat-bubble bassar">「で？ これ誰に向けて書いたの？ ターゲット見えてないよ」</div>
@@ -1140,7 +1158,7 @@
             </div>
           </div>
           <div class="chat-row">
-            <div class="chat-avatar nukuru">ヌ</div>
+            <div class="chat-avatar nukuru"><img src="images/nukuru.png" alt="ヌクル"></div>
             <div class="chat-body">
               <div class="chat-name nukuru">ヌクル</div>
               <div class="chat-bubble nukuru">「今日もちゃんとここ来たね。……それだけでえらいよ」</div>
@@ -1244,7 +1262,7 @@
           <div class="phone-content">
             <div class="phone-section-label">ホーム</div>
             <div class="phone-greeting" style="background: var(--yomi-surface); border: 1px solid var(--yomi-light);">
-              <div class="phone-greeting-avatar" style="background: var(--yomi-primary);">ヨ</div>
+              <div class="phone-greeting-avatar" style="background: var(--yomi-primary);"><img src="images/yomi.png" alt="ヨミ"></div>
               <div class="phone-greeting-body">
                 <div class="phone-greeting-name" style="color: var(--yomi-primary);">ヨミ</div>
                 「昨夜の投稿、寝てる間に数字が動いてました」
@@ -1292,7 +1310,7 @@
           <div class="phone-content">
             <div class="phone-section-label">ホーム</div>
             <div class="phone-greeting" style="background: var(--bassar-surface); border: 1px solid var(--bassar-light);">
-              <div class="phone-greeting-avatar" style="background: var(--bassar-primary);">バ</div>
+              <div class="phone-greeting-avatar" style="background: var(--bassar-primary);"><img src="images/bassar.png" alt="バッサー"></div>
               <div class="phone-greeting-body">
                 <div class="phone-greeting-name" style="color: var(--bassar-primary);">バッサー</div>
                 「遅い。もうフィード流れてるよ。戦略聞く気ある？」
@@ -1340,7 +1358,7 @@
           <div class="phone-content">
             <div class="phone-section-label">ホーム</div>
             <div class="phone-greeting" style="background: var(--nukuru-surface); border: 1px solid var(--nukuru-light);">
-              <div class="phone-greeting-avatar" style="background: var(--nukuru-primary);">ヌ</div>
+              <div class="phone-greeting-avatar" style="background: var(--nukuru-primary);"><img src="images/nukuru.png" alt="ヌクル"></div>
               <div class="phone-greeting-body">
                 <div class="phone-greeting-name" style="color: var(--nukuru-primary);">ヌクル</div>
                 「おはよう。今日もここ来たね。……えらいよ」
@@ -1387,7 +1405,7 @@
     <h2 class="section-title">06 — Share Card (Screenshot-ready)</h2>
     <div class="share-cards">
       <div class="share-card yomi">
-        <div class="share-card-avatar" style="background: var(--yomi-primary);">ヨ</div>
+        <div class="share-card-avatar" style="background: var(--yomi-primary);"><img src="images/yomi.png" alt="ヨミ"></div>
         <div class="share-card-text">
           「……すごいじゃないですか。過去最高のエンゲージメント率です」
         </div>
@@ -1403,7 +1421,7 @@
       </div>
 
       <div class="share-card bassar">
-        <div class="share-card-avatar" style="background: var(--bassar-primary);">バ</div>
+        <div class="share-card-avatar" style="background: var(--bassar-primary);"><img src="images/bassar.png" alt="バッサー"></div>
         <div class="share-card-text">
           「……やるじゃん。（……ずっとこのレベルでやってよね）」
         </div>
@@ -1419,7 +1437,7 @@
       </div>
 
       <div class="share-card nukuru">
-        <div class="share-card-avatar" style="background: var(--nukuru-primary);">ヌ</div>
+        <div class="share-card-avatar" style="background: var(--nukuru-primary);"><img src="images/nukuru.png" alt="ヌクル"></div>
         <div class="share-card-text">
           「おめでとう。……ここまで来るの、大変だったよね。わたし、全部見てたよ」
         </div>
