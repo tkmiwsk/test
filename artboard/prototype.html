@@ -282,6 +282,153 @@
   .status-icons { display: flex; gap: 6px; align-items: center; font-size: 11px; }
 
   /* ===============================================
+     SCREEN 0: Diagnosis Quiz (L Mode)
+  =============================================== */
+  .screen-quiz {
+    background: linear-gradient(180deg, var(--accent-surface) 0%, var(--bg-page) 55%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 22px 40px;
+    min-height: 100%;
+  }
+  .quiz-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0 18px;
+    width: 100%;
+    opacity: 0;
+    animation: fadeUp var(--duration-normal) 0.1s var(--ease-enter) forwards;
+  }
+  .quiz-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .quiz-progress {
+    display: flex;
+    gap: 6px;
+  }
+  .quiz-dot {
+    width: 28px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-default);
+    transition: background var(--duration-normal);
+  }
+  .quiz-dot.active { background: var(--accent); }
+  .quiz-dot.done   { background: var(--accent); opacity: 0.45; }
+
+  .quiz-step { display: none; flex-direction: column; align-items: center; width: 100%; }
+  .quiz-step.active-step { display: flex; }
+
+  .quiz-qnum {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeUp var(--duration-normal) 0.2s var(--ease-enter) forwards;
+  }
+  .quiz-question {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-align: center;
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp var(--duration-slow) 0.35s var(--ease-enter) forwards;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    width: 100%;
+    opacity: 0;
+    animation: fadeUp var(--duration-slow) 0.5s var(--ease-enter) forwards;
+  }
+  .quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-page);
+    border: 1.5px solid var(--border-default);
+    border-radius: var(--radius-l);
+    padding: 13px 15px;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: all var(--duration-fast);
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+  }
+  .quiz-option:hover {
+    border-color: var(--accent-light);
+    background: var(--accent-surface);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .quiz-option.selected {
+    border-color: var(--accent);
+    background: var(--accent-surface);
+  }
+  .quiz-option-letter {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--bg-inset);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-tertiary);
+    flex-shrink: 0;
+    transition: all var(--duration-fast);
+  }
+  .quiz-option.selected .quiz-option-letter {
+    background: var(--accent);
+    color: var(--text-inverse);
+  }
+  .quiz-option-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.45;
+  }
+
+  /* doc links */
+  .doc-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-m);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--duration-fast) var(--ease-default);
+  }
+  .doc-link:hover {
+    background: var(--bg-inset);
+    color: var(--text-primary);
+    border-color: var(--border-default);
+  }
+  .doc-link span { font-size: 10px; color: var(--text-tertiary); }
+
+  /* ===============================================
      SCREEN 1: Diagnosis Result (L Mode)
   =============================================== */
   .screen-diagnosis {
@@ -1060,11 +1207,25 @@
   <div class="side-panel">
     <div class="panel-section">
       <div class="panel-label">Screens</div>
+      <button class="nav-btn" onclick="showScreen('quiz')">
+        <div class="nav-icon">L</div>
+        <div class="nav-label-wrap">
+          診断
+          <small>L Mode — 質問ステップ</small>
+        </div>
+      </button>
       <button class="nav-btn active" onclick="showScreen('diagnosis')">
         <div class="nav-icon">L</div>
         <div class="nav-label-wrap">
           診断結果
-          <small>L Mode — ステージ演出</small>
+          <small>L Mode — キャラ決定</small>
+        </div>
+      </button>
+      <button class="nav-btn" onclick="showScreen('connect')">
+        <div class="nav-icon">L</div>
+        <div class="nav-label-wrap">
+          SNS連携
+          <small>L Mode — 連携促進</small>
         </div>
       </button>
       <button class="nav-btn" onclick="showScreen('home')">
@@ -1079,13 +1240,6 @@
         <div class="nav-label-wrap">
           キャラ切替
           <small>L Mode — 退場・登場演出</small>
-        </div>
-      </button>
-      <button class="nav-btn" onclick="showScreen('connect')">
-        <div class="nav-icon">L</div>
-        <div class="nav-label-wrap">
-          SNS連携
-          <small>L Mode — 連携促進</small>
         </div>
       </button>
     </div>
@@ -1105,12 +1259,102 @@
         <span>ヌクル — 癒し系</span>
       </button>
     </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Documents</div>
+      <a class="doc-link" href="character-design-sheet.html" target="_blank">
+        キャラクターシート
+        <span>↗</span>
+      </a>
+      <a class="doc-link" href="design-system.html" target="_blank">
+        デザインシステム
+        <span>↗</span>
+      </a>
+    </div>
   </div>
 
   <!-- ===== Phone Frame ===== -->
   <div class="phone-frame" id="phoneFrame">
 
-    <!-- Screen 1: Diagnosis -->
+    <!-- Screen 0: Diagnosis Quiz -->
+    <div class="screen screen-quiz" id="screen-quiz">
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-icons">●●● ▲ 🔋</div>
+      </div>
+      <span class="mode-badge l"><span class="mode-dot"></span>L Mode</span>
+
+      <div class="quiz-header">
+        <div class="quiz-title">アドバイザー診断</div>
+        <div class="quiz-progress">
+          <div class="quiz-dot active" id="qDot0"></div>
+          <div class="quiz-dot" id="qDot1"></div>
+          <div class="quiz-dot" id="qDot2"></div>
+        </div>
+      </div>
+
+      <!-- Q1 -->
+      <div class="quiz-step active-step" id="qStep0">
+        <div class="quiz-qnum">Q1 / 3</div>
+        <div class="quiz-question">SNSをやる理由、<br>正直なところは？</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="quizAnswer(0,'yomi',this)">
+            <div class="quiz-option-letter">A</div>
+            <div class="quiz-option-text">数字で成果を出したい。<br>データで戦略を立てたい</div>
+          </button>
+          <button class="quiz-option" onclick="quizAnswer(0,'bassar',this)">
+            <div class="quiz-option-letter">B</div>
+            <div class="quiz-option-text">バズりたい。<br>注目されて認められたい</div>
+          </button>
+          <button class="quiz-option" onclick="quizAnswer(0,'nukuru',this)">
+            <div class="quiz-option-letter">C</div>
+            <div class="quiz-option-text">つながりを大切にしたい。<br>誰かの役に立ちたい</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="quiz-step" id="qStep1">
+        <div class="quiz-qnum">Q2 / 3</div>
+        <div class="quiz-question">今、一番<br>しんどいことは？</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="quizAnswer(1,'yomi',this)">
+            <div class="quiz-option-letter">A</div>
+            <div class="quiz-option-text">分析が難しくて<br>どこを見ればいいかわからない</div>
+          </button>
+          <button class="quiz-option" onclick="quizAnswer(1,'bassar',this)">
+            <div class="quiz-option-letter">B</div>
+            <div class="quiz-option-text">戦略が定まらず<br>空回りしている感じがする</div>
+          </button>
+          <button class="quiz-option" onclick="quizAnswer(1,'nukuru',this)">
+            <div class="quiz-option-letter">C</div>
+            <div class="quiz-option-text">続けるモチベが<br>なかなか維持できない</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="quiz-step" id="qStep2">
+        <div class="quiz-qnum">Q3 / 3</div>
+        <div class="quiz-question">理想のアドバイザーは<br>どんな人？</div>
+        <div class="quiz-options">
+          <button class="quiz-option" onclick="quizAnswer(2,'yomi',this)">
+            <div class="quiz-option-letter">A</div>
+            <div class="quiz-option-text">データで冷静に<br>分析してくれる人</div>
+          </button>
+          <button class="quiz-option" onclick="quizAnswer(2,'bassar',this)">
+            <div class="quiz-option-letter">B</div>
+            <div class="quiz-option-text">厳しくても本音で<br>直接言ってくれる人</div>
+          </button>
+          <button class="quiz-option" onclick="quizAnswer(2,'nukuru',this)">
+            <div class="quiz-option-letter">C</div>
+            <div class="quiz-option-text">寄り添って<br>一緒に考えてくれる人</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 1: Diagnosis Result -->
     <div class="screen screen-diagnosis active" id="screen-diagnosis">
       <div class="status-bar">
         <span>9:41</span>
@@ -1139,7 +1383,7 @@
       </div>
 
       <div class="diag-actions">
-        <button class="btn-primary">このアドバイザーで始める</button>
+        <button class="btn-primary" onclick="showScreen('connect')">このアドバイザーで始める</button>
         <button class="btn-secondary">結果をシェアする 📤</button>
       </div>
 
@@ -1346,6 +1590,7 @@
         </div>
       </div>
 
+      <button class="btn-primary" onclick="showScreen('home')" style="width:100%;max-width:300px;margin-top:16px;opacity:0;animation:fadeUp var(--duration-slow) 1.9s var(--ease-enter) forwards;">アドバイスを始める →</button>
       <div class="connect-skip" onclick="showScreen('home')">後でやる（スキップ）</div>
     </div>
 
@@ -1420,7 +1665,61 @@
 
     replayAnimations('screen-' + name);
     if (name === 'switch') resetSwitch();
+    if (name === 'quiz') resetQuiz();
     currentScreen = name;
+  }
+
+  /* ===== Quiz logic ===== */
+  let quizAnswers = [];
+
+  function resetQuiz() {
+    quizAnswers = [];
+    // Reset dots
+    ['qDot0','qDot1','qDot2'].forEach((id, i) => {
+      const d = document.getElementById(id);
+      d.className = 'quiz-dot' + (i === 0 ? ' active' : '');
+    });
+    // Show first step
+    ['qStep0','qStep1','qStep2'].forEach((id, i) => {
+      document.getElementById(id).className = 'quiz-step' + (i === 0 ? ' active-step' : '');
+    });
+    // Reset option highlights
+    document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+  }
+
+  function quizAnswer(step, charKey, btn) {
+    // Highlight selected option briefly
+    const stepEl = document.getElementById('qStep' + step);
+    stepEl.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+    btn.classList.add('selected');
+
+    quizAnswers[step] = charKey;
+
+    setTimeout(() => {
+      // Update progress dots
+      const doneDot = document.getElementById('qDot' + step);
+      doneDot.classList.remove('active');
+      doneDot.classList.add('done');
+
+      if (step < 2) {
+        // Advance to next question
+        stepEl.className = 'quiz-step';
+        const nextStep = document.getElementById('qStep' + (step + 1));
+        nextStep.className = 'quiz-step active-step';
+        // Replay animations for next step
+        nextStep.querySelectorAll('.quiz-qnum,.quiz-question,.quiz-options').forEach(e => {
+          e.style.animation = 'none'; void e.offsetHeight; e.style.animation = '';
+        });
+        document.getElementById('qDot' + (step + 1)).classList.add('active');
+      } else {
+        // All answered — determine winning character
+        const counts = { yomi: 0, bassar: 0, nukuru: 0 };
+        quizAnswers.forEach(k => { if (counts[k] !== undefined) counts[k]++; });
+        const winner = Object.keys(counts).reduce((a, b) => counts[a] >= counts[b] ? a : b);
+        switchChar(winner);
+        showScreen('diagnosis');
+      }
+    }, 280);
   }
 
   function replayAnimations(id) {
@@ -1435,7 +1734,7 @@
     });
     // Force all animated children
     const el = document.getElementById(id);
-    const animated = el.querySelectorAll('.diag-intro,.diag-char-wrap,.diag-name,.diag-bubble,.diag-actions,.diag-ghost,.dialogue-card,.summary-card,.posts-card,.farewell-char,.farewell-name,.farewell-bubble,.farewell-next,.welcome-char,.welcome-name,.welcome-role,.welcome-bubble,.welcome-start');
+    const animated = el.querySelectorAll('.diag-intro,.diag-char-wrap,.diag-name,.diag-bubble,.diag-actions,.diag-ghost,.dialogue-card,.summary-card,.posts-card,.farewell-char,.farewell-name,.farewell-bubble,.farewell-next,.welcome-char,.welcome-name,.welcome-role,.welcome-bubble,.welcome-start,.quiz-header,.quiz-qnum,.quiz-question,.quiz-options');
     animated.forEach(e => {
       e.style.animation = 'none';
       void e.offsetHeight;
