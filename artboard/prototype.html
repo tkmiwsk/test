@@ -1197,6 +1197,246 @@
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50%       { opacity: 1;   transform: scale(1.04); }
   }
+
+  /* ===============================================
+     SCREEN -1: Welcome / Service Start (L Mode)
+  =============================================== */
+  .screen-welcome {
+    background: #0B1120;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    min-height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Background glow blobs */
+  .wlc-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .wlc-glow.yomi   { width: 320px; height: 320px; background: rgba(14,165,233,0.20); top: -80px; left: -60px; }
+  .wlc-glow.bassar { width: 280px; height: 280px; background: rgba(244,63,94,0.15);  bottom: 40px; right: -40px; }
+  .wlc-glow.nukuru { width: 240px; height: 240px; background: rgba(16,185,129,0.12); bottom: 80px; left: 30px; }
+
+  /* Dot grid */
+  .wlc-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  /* Header bar */
+  .wlc-topbar {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px 0;
+    opacity: 0;
+    animation: fadeUp var(--duration-normal) 0.1s var(--ease-enter) forwards;
+  }
+  .wlc-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+  .wlc-brand-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #0EA5E9;
+    box-shadow: 0 0 8px #0EA5E9;
+  }
+  .wlc-badge {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 3px 10px;
+    border-radius: 9999px;
+  }
+
+  /* Character lineup */
+  .wlc-chars {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 12px;
+    width: 100%;
+    padding: 24px 0 0;
+    opacity: 0;
+    animation: fadeUp var(--duration-slow) 0.25s var(--ease-enter) forwards;
+  }
+  .wlc-char {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .wlc-char.center { transform: translateY(-12px); }
+  .wlc-char.side { opacity: 0.75; }
+
+  .wlc-orb {
+    position: relative;
+    border-radius: 50%;
+    overflow: visible;
+  }
+  .wlc-char.center .wlc-orb { width: 90px; height: 90px; }
+  .wlc-char.side   .wlc-orb { width: 66px; height: 66px; }
+
+  .wlc-orb img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid;
+    display: block;
+  }
+  .wlc-char.center .wlc-orb img { border-color: rgba(14,165,233,0.6); }
+  .wlc-char[data-char="bassar"] .wlc-orb img { border-color: rgba(244,63,94,0.5); }
+  .wlc-char[data-char="nukuru"] .wlc-orb img { border-color: rgba(16,185,129,0.5); }
+
+  .wlc-orb-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    opacity: 0.5;
+    animation: orbPulse 3s ease-in-out infinite;
+  }
+  .wlc-char.center .wlc-orb-ring { inset: -6px; opacity: 0.7; }
+
+  .wlc-char-name {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  /* Copy area */
+  .wlc-copy {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 20px 24px 0;
+    opacity: 0;
+    animation: fadeUp var(--duration-slow) 0.45s var(--ease-enter) forwards;
+  }
+  .wlc-service-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .wlc-tagline {
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .wlc-tagline .hl { color: #0EA5E9; }
+  .wlc-sub {
+    font-size: 12px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 28px;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* CTA button */
+  .wlc-cta {
+    position: relative;
+    z-index: 2;
+    width: calc(100% - 48px);
+    opacity: 0;
+    animation: fadeUp var(--duration-slow) 0.7s var(--ease-enter) forwards;
+  }
+  .wlc-btn-start {
+    width: 100%;
+    padding: 15px;
+    border-radius: var(--radius-full);
+    border: none;
+    background: #0EA5E9;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(14,165,233,0.45);
+    transition: all var(--duration-fast);
+  }
+  .wlc-btn-start:hover { background: #0284C7; transform: translateY(-1px); }
+
+  .wlc-skip {
+    position: relative;
+    z-index: 2;
+    margin-top: 12px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.28);
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeUp var(--duration-slow) 0.85s var(--ease-enter) forwards;
+    text-align: center;
+  }
+  .wlc-skip:hover { color: rgba(255,255,255,0.5); }
+
+  /* Feature props */
+  .wlc-props {
+    position: relative;
+    z-index: 2;
+    width: calc(100% - 48px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeUp var(--duration-slow) 0.6s var(--ease-enter) forwards;
+  }
+  .wlc-prop {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-m);
+    padding: 9px 12px;
+  }
+  .wlc-prop-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .wlc-prop-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.45;
+  }
+  .wlc-prop-text strong { color: rgba(255,255,255,0.85); font-weight: 700; }
 </style>
 </head>
 <body>
@@ -1207,6 +1447,13 @@
   <div class="side-panel">
     <div class="panel-section">
       <div class="panel-label">Screens</div>
+      <button class="nav-btn active" onclick="showScreen('welcome')">
+        <div class="nav-icon">L</div>
+        <div class="nav-label-wrap">
+          はじめる
+          <small>L Mode — サービス開始</small>
+        </div>
+      </button>
       <button class="nav-btn" onclick="showScreen('quiz')">
         <div class="nav-icon">L</div>
         <div class="nav-label-wrap">
@@ -1214,7 +1461,7 @@
           <small>L Mode — 質問ステップ</small>
         </div>
       </button>
-      <button class="nav-btn active" onclick="showScreen('diagnosis')">
+      <button class="nav-btn" onclick="showScreen('diagnosis')">
         <div class="nav-icon">L</div>
         <div class="nav-label-wrap">
           診断結果
@@ -1262,6 +1509,10 @@
 
     <div class="panel-section">
       <div class="panel-label">Documents</div>
+      <a class="doc-link" href="key-visual.html" target="_blank">
+        キービジュアル
+        <span>↗</span>
+      </a>
       <a class="doc-link" href="character-design-sheet.html" target="_blank">
         キャラクターシート
         <span>↗</span>
@@ -1275,6 +1526,86 @@
 
   <!-- ===== Phone Frame ===== -->
   <div class="phone-frame" id="phoneFrame">
+
+    <!-- Screen -1: Welcome / Service Start -->
+    <div class="screen screen-welcome active" id="screen-welcome">
+      <!-- Background -->
+      <div class="wlc-glow yomi"></div>
+      <div class="wlc-glow bassar"></div>
+      <div class="wlc-glow nukuru"></div>
+      <div class="wlc-grid"></div>
+
+      <!-- Top bar -->
+      <div class="wlc-topbar">
+        <div class="wlc-brand">
+          <div class="wlc-brand-dot"></div>
+          SNS Advisor
+        </div>
+        <div class="wlc-badge">Beta 2026</div>
+      </div>
+
+      <!-- Character lineup -->
+      <div class="wlc-chars">
+        <div class="wlc-char side" data-char="bassar">
+          <div class="wlc-orb">
+            <div class="wlc-orb-ring" style="border-color: #F43F5E;"></div>
+            <img src="images/bassar.png" alt="バッサー">
+          </div>
+          <div class="wlc-char-name" style="color:#F43F5E;">バッサー</div>
+        </div>
+        <div class="wlc-char center" data-char="yomi">
+          <div class="wlc-orb">
+            <div class="wlc-orb-ring" style="border-color: #0EA5E9;"></div>
+            <img src="images/yomi.png" alt="ヨミ">
+          </div>
+          <div class="wlc-char-name" style="color:#0EA5E9;">ヨミ</div>
+        </div>
+        <div class="wlc-char side" data-char="nukuru">
+          <div class="wlc-orb">
+            <div class="wlc-orb-ring" style="border-color: #10B981;"></div>
+            <img src="images/nukuru.png" alt="ヌクル">
+          </div>
+          <div class="wlc-char-name" style="color:#10B981;">ヌクル</div>
+        </div>
+      </div>
+
+      <!-- Copy -->
+      <div class="wlc-copy">
+        <div class="wlc-service-label">SNS投稿のパーソナルアドバイザー</div>
+        <div class="wlc-tagline">
+          投稿のあとに、<br>
+          <span class="hl">待ってる</span>人が<br>
+          いる。
+        </div>
+        <div class="wlc-sub">
+          SNSデータを読み込んで、個性豊かな<br>
+          キャラクターが毎日フィードバック。<br>
+          3人から、あなたのアドバイザーを選んでください。
+        </div>
+      </div>
+
+      <!-- Feature props -->
+      <div class="wlc-props">
+        <div class="wlc-prop">
+          <div class="wlc-prop-dot" style="background:#0EA5E9;"></div>
+          <div class="wlc-prop-text"><strong>3問の診断</strong>でアドバイザーが自動マッチング</div>
+        </div>
+        <div class="wlc-prop">
+          <div class="wlc-prop-dot" style="background:#F43F5E;"></div>
+          <div class="wlc-prop-text">データが<strong>キャラクターの言葉</strong>になって届く</div>
+        </div>
+        <div class="wlc-prop">
+          <div class="wlc-prop-dot" style="background:#10B981;"></div>
+          <div class="wlc-prop-text"><strong>SNS連携</strong>で毎日フィードバックが届く</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="wlc-cta" style="margin-top:20px;">
+        <button class="wlc-btn-start" onclick="showScreen('quiz')">アドバイザーを探す →</button>
+      </div>
+      <div class="wlc-skip" onclick="showScreen('home')">スキップして使い始める</div>
+    </div>
 
     <!-- Screen 0: Diagnosis Quiz -->
     <div class="screen screen-quiz" id="screen-quiz">
@@ -1355,7 +1686,7 @@
     </div>
 
     <!-- Screen 1: Diagnosis Result -->
-    <div class="screen screen-diagnosis active" id="screen-diagnosis">
+    <div class="screen screen-diagnosis" id="screen-diagnosis">
       <div class="status-bar">
         <span>9:41</span>
         <div class="status-icons">●●● ▲ 🔋</div>
@@ -1642,7 +1973,7 @@
   };
 
   let currentChar = 'yomi';
-  let currentScreen = 'diagnosis';
+  let currentScreen = 'welcome';
 
   /* ===== Apply theme ===== */
   function applyTheme(charKey) {
