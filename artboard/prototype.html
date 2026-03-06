@@ -10,58 +10,85 @@
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    /* Character Colors */
-    --yomi: #0EA5E9;
-    --yomi-light: #E0F2FE;
-    --yomi-surface: #F0F9FF;
-    --yomi-dark: #0369A1;
-    --yomi-glow: rgba(14, 165, 233, 0.3);
-    --yomi-bg-start: #0c1929;
-    --yomi-bg-end: #0f2740;
+    /* ===== Design System: Base Colors ===== */
+    --bg-primary:   #0D1117;
+    --bg-secondary: #161B22;
+    --bg-tertiary:  #21262D;
+    --border-default: #30363D;
+    --border-subtle:  #21262D;
 
-    --bassar: #F43F5E;
-    --bassar-light: #FFE4E6;
-    --bassar-surface: #FFF1F2;
-    --bassar-dark: #BE123C;
-    --bassar-glow: rgba(244, 63, 94, 0.3);
-    --bassar-bg-start: #1a0c10;
-    --bassar-bg-end: #2d1118;
+    /* Text */
+    --text-primary:   #F0F6FC;
+    --text-secondary: #8B949E;
+    --text-tertiary:  #484F58;
+    --text-on-accent: #FFFFFF;
 
-    --nukuru: #10B981;
-    --nukuru-light: #D1FAE5;
-    --nukuru-surface: #ECFDF5;
-    --nukuru-dark: #047857;
-    --nukuru-glow: rgba(16, 185, 129, 0.3);
-    --nukuru-bg-start: #0c1f17;
-    --nukuru-bg-end: #0f2e22;
+    /* Status */
+    --status-success: #3FB950;
+    --status-warning: #D29922;
+    --status-danger:  #F85149;
+    --status-info:    #58A6FF;
 
-    /* Active theme (default: yomi) */
-    --accent: var(--yomi);
-    --accent-light: var(--yomi-light);
+    /* ===== Character Colors ===== */
+    /* Yomi — Cyan */
+    --yomi-primary: #00D4FF;
+    --yomi-glow:    #00D4FF40;
+    --yomi-surface: #00D4FF15;
+    --yomi-dark:    #0A2A3A;
+
+    /* Bassar — Crimson */
+    --bassar-primary: #FF3B5C;
+    --bassar-glow:    #FF3B5C40;
+    --bassar-surface: #FF3B5C15;
+    --bassar-dark:    #3A0A15;
+
+    /* Nukuru — Mint */
+    --nukuru-primary: #5CFFB1;
+    --nukuru-glow:    #5CFFB140;
+    --nukuru-surface: #5CFFB115;
+    --nukuru-dark:    #0A3A25;
+
+    /* Active accent (default: yomi) */
+    --accent:         var(--yomi-primary);
     --accent-surface: var(--yomi-surface);
-    --accent-dark: var(--yomi-dark);
-    --accent-glow: var(--yomi-glow);
-    --bg-start: var(--yomi-bg-start);
-    --bg-end: var(--yomi-bg-end);
+    --accent-dark:    var(--yomi-dark);
+    --accent-glow:    var(--yomi-glow);
 
-    /* Neutral */
-    --bg-card: rgba(255,255,255,0.06);
-    --bg-card-solid: #1a2332;
-    --border: rgba(255,255,255,0.08);
-    --border-light: rgba(255,255,255,0.12);
-    --text-primary: #F1F5F9;
-    --text-secondary: #94A3B8;
-    --text-muted: #64748B;
+    /* Aliases used in components */
+    --bg-card: var(--bg-secondary);
+    --border:  var(--border-default);
+    --border-light: var(--border-default);
+    --text-muted: var(--text-tertiary);
 
-    --radius-s: 8px;
-    --radius-m: 12px;
-    --radius-l: 16px;
-    --radius-xl: 24px;
+    /* Spacing */
+    --space-xs: 4px;
+    --space-s:  8px;
+    --space-m:  12px;
+    --space-l:  16px;
+    --space-xl: 24px;
+    --space-2xl: 32px;
+    --space-3xl: 48px;
+
+    /* Radius */
+    --radius-s:    8px;
+    --radius-m:    12px;
+    --radius-l:    16px;
+    --radius-xl:   24px;
     --radius-full: 9999px;
+
+    /* Animation */
+    --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-enter:   cubic-bezier(0, 0, 0.2, 1);
+    --ease-exit:    cubic-bezier(0.4, 0, 1, 1);
+    --ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1);
+    --duration-fast:     150ms;
+    --duration-normal:   300ms;
+    --duration-slow:     500ms;
+    --duration-dramatic: 800ms;
   }
 
   body {
-    background: #0a0a0a;
+    background: #080B10;
     color: var(--text-primary);
     font-family: 'Noto Sans JP', 'Inter', sans-serif;
     line-height: 1.6;
@@ -94,13 +121,13 @@
   }
 
   .phone-frame[data-theme="yomi"] {
-    box-shadow: 0 0 0 2px rgba(14,165,233,0.2), 0 25px 80px rgba(0,0,0,0.5), 0 0 60px rgba(14,165,233,0.08);
+    box-shadow: 0 0 0 1px #30363D, 0 25px 80px rgba(0,0,0,0.6), 0 0 60px rgba(0,212,255,0.06);
   }
   .phone-frame[data-theme="bassar"] {
-    box-shadow: 0 0 0 2px rgba(244,63,94,0.2), 0 25px 80px rgba(0,0,0,0.5), 0 0 60px rgba(244,63,94,0.08);
+    box-shadow: 0 0 0 1px #30363D, 0 25px 80px rgba(0,0,0,0.6), 0 0 60px rgba(255,59,92,0.06);
   }
   .phone-frame[data-theme="nukuru"] {
-    box-shadow: 0 0 0 2px rgba(16,185,129,0.2), 0 25px 80px rgba(0,0,0,0.5), 0 0 60px rgba(16,185,129,0.08);
+    box-shadow: 0 0 0 1px #30363D, 0 25px 80px rgba(0,0,0,0.6), 0 0 60px rgba(92,255,177,0.06);
   }
 
   /* Screen Container */
@@ -226,7 +253,7 @@
 
   /* ===== Screen: Diagnosis Result (L Mode) ===== */
   .screen-diagnosis {
-    background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 50%, #0f172a 100%);
+    background: linear-gradient(180deg, var(--accent-dark) 0%, var(--bg-primary) 55%, var(--bg-primary) 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -308,11 +335,12 @@
     font-size: 16px;
     line-height: 1.8;
     color: var(--text-primary);
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    border-radius: 4px 20px 20px 20px;
+    background: var(--accent-dark);
+    border: 1px solid var(--accent);
+    border-radius: 4px 16px 16px 16px;
     padding: 16px 20px;
     position: relative;
+    opacity: 0.95;
   }
   .diagnosis-speech .speech-bubble::before {
     content: '';
@@ -321,9 +349,9 @@
     left: 20px;
     width: 12px;
     height: 12px;
-    background: var(--bg-card);
-    border-left: 1px solid var(--border-light);
-    border-top: 1px solid var(--border-light);
+    background: var(--accent-dark);
+    border-left: 1px solid var(--accent);
+    border-top: 1px solid var(--accent);
     transform: rotate(45deg);
   }
 
@@ -339,35 +367,38 @@
   .btn-primary {
     display: block;
     width: 100%;
-    padding: 16px;
+    height: 48px;
+    padding: 0 var(--space-xl);
     border: none;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-m);
     background: var(--accent);
-    color: #fff;
-    font-size: 15px;
+    color: var(--text-on-accent);
+    font-size: 16px;
     font-weight: 700;
     font-family: inherit;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: filter var(--duration-fast) var(--ease-default),
+                transform var(--duration-fast) var(--ease-default);
     text-align: center;
   }
   .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
   .btn-secondary {
     display: block;
     width: 100%;
-    padding: 14px;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-full);
+    height: 40px;
+    padding: 0 var(--space-xl);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-m);
     background: transparent;
-    color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 500;
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background var(--duration-fast) var(--ease-default);
     text-align: center;
   }
-  .btn-secondary:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+  .btn-secondary:hover { background: var(--accent-surface); }
 
   .diagnosis-others {
     margin-top: 20px;
@@ -386,7 +417,7 @@
 
   /* ===== Screen: Home (M + S Mode) ===== */
   .screen-home {
-    background: linear-gradient(180deg, var(--bg-start) 0%, #0f172a 30%, #0f172a 100%);
+    background: linear-gradient(180deg, var(--accent-dark) 0%, var(--bg-primary) 28%, var(--bg-primary) 100%);
     display: flex;
     flex-direction: column;
     min-height: 100%;
@@ -436,7 +467,7 @@
     height: 10px;
     border-radius: 50%;
     background: var(--accent);
-    border: 2px solid #0f172a;
+    border: 2px solid var(--bg-primary);
   }
 
   .home-content {
@@ -491,9 +522,9 @@
     line-height: 1.8;
     color: var(--text-primary);
     padding: 12px 14px;
-    background: rgba(255,255,255,0.03);
+    background: var(--accent-dark);
     border-radius: 4px 14px 14px 14px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--accent);
   }
   .typing-cursor {
     display: inline-block;
@@ -537,8 +568,8 @@
     gap: 12px;
   }
   .stat-item {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-default);
     border-radius: var(--radius-m);
     padding: 14px;
   }
@@ -558,8 +589,8 @@
     font-weight: 600;
     margin-top: 2px;
   }
-  .stat-change.positive { color: #22C55E; }
-  .stat-change.negative { color: #EF4444; }
+  .stat-change.positive { color: var(--status-success); }
+  .stat-change.negative { color: var(--status-danger); }
 
   /* S Mode: Mini character reaction on data */
   .stat-item .s-mode-reaction {
@@ -597,9 +628,9 @@
   }
   .post-thumb {
     aspect-ratio: 1;
-    border-radius: var(--radius-s);
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-default);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -634,9 +665,9 @@
     left: 0;
     right: 0;
     height: 84px;
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(13, 17, 23, 0.96);
     backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border-default);
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
@@ -670,7 +701,7 @@
 
   /* ===== Screen: Character Switch (L Mode) ===== */
   .screen-switch {
-    background: linear-gradient(180deg, #0a0a12 0%, #0f1520 50%, #0f172a 100%);
+    background: var(--bg-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1129,7 +1160,7 @@
       name: 'ヨミ',
       role: '― 数値の参謀 ―',
       img: 'images/yomi.png',
-      accent: '#0EA5E9',
+      accent: '#00D4FF',
       diagnosisSpeech: '「面白いデータが出た。<br>……聞きたい？」',
       homeSpeech: '「昨夜の投稿、寝てる間に数字が動いてました。……報告します。エンゲージメント率が先週比+12%。何か変えましたか？」',
       homeExpression: '😊',
@@ -1141,7 +1172,7 @@
       name: 'バッサー',
       role: '― 辛口コーチ ―',
       img: 'images/bassar.png',
-      accent: '#F43F5E',
+      accent: '#FF3B5C',
       diagnosisSpeech: '「甘やかしてほしいなら<br>他のアドバイザーのとこ行きな」',
       homeSpeech: '「遅い。もうフォロワーのフィード流れてるよ。今日の戦略、聞く気ある？ リーチは悪くないけど、投稿の質がバラついてる」',
       homeExpression: '😏',
@@ -1153,7 +1184,7 @@
       name: 'ヌクル',
       role: '― 共感の癒し系 ―',
       img: 'images/nukuru.png',
-      accent: '#10B981',
+      accent: '#5CFFB1',
       diagnosisSpeech: '「今日もちゃんとここ来たね。<br>……それだけでえらいよ」',
       homeSpeech: '「おはよう。今日もちゃんとここ来たね。……それだけでえらいよ。今週の数字、一緒に見ようか？ いいこといっぱいあるよ」',
       homeExpression: '🥰',
@@ -1230,15 +1261,12 @@
     // Update phone frame theme
     document.getElementById('phoneFrame').dataset.theme = charName;
 
-    // Update CSS variables
+    // Update CSS variables (design system tokens)
     const root = document.documentElement;
-    root.style.setProperty('--accent', `var(--${charName})`);
-    root.style.setProperty('--accent-light', `var(--${charName}-light)`);
+    root.style.setProperty('--accent',         `var(--${charName}-primary)`);
     root.style.setProperty('--accent-surface', `var(--${charName}-surface)`);
-    root.style.setProperty('--accent-dark', `var(--${charName}-dark)`);
-    root.style.setProperty('--accent-glow', `var(--${charName}-glow)`);
-    root.style.setProperty('--bg-start', `var(--${charName}-bg-start)`);
-    root.style.setProperty('--bg-end', `var(--${charName}-bg-end)`);
+    root.style.setProperty('--accent-dark',    `var(--${charName}-dark)`);
+    root.style.setProperty('--accent-glow',    `var(--${charName}-glow)`);
 
     // Update Diagnosis screen
     document.getElementById('diagnosisCharImg').src = data.img;
