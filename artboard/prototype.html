@@ -1225,15 +1225,7 @@
     document.getElementById('homeExpr').textContent     = c.homeExpr;
     c.reactions.forEach((r, i) => document.getElementById('r' + (i+1)).textContent = r);
 
-    // Switch screen
-    const prevC = chars[prev];
-    document.getElementById('farewellImg').src   = prevC.img;
-    document.getElementById('farewellName').textContent = prevC.name;
-    document.getElementById('farewellText').textContent = prevC.farewell;
-    document.getElementById('welcomeImg').src    = c.img;
-    document.getElementById('welcomeName').textContent  = c.name;
-    document.getElementById('welcomeRole').textContent  = c.role;
-    document.getElementById('welcomeText').textContent  = welcomeLines[prev]?.[charKey] || c.diagSpeech.replace(/<br>/g, '');
+    // Switch screen は showScreen 時に動的更新するため、ここでは更新不要
 
     replayAnimations('screen-' + currentScreen);
     if (currentScreen === 'switch') resetSwitch();
@@ -1241,6 +1233,22 @@
 
   /* ===== Switch screen logic ===== */
   function resetSwitch() {
+    // 退場 = 現在のキャラ / 登場 = 次のキャラ（ローテーション順）
+    const order = ['yomi', 'bassar', 'nukuru'];
+    const idx = order.indexOf(currentChar);
+    const nextKey = order[(idx + 1) % order.length];
+    const c  = chars[currentChar];
+    const nc = chars[nextKey];
+
+    document.getElementById('farewellImg').src              = c.img;
+    document.getElementById('farewellName').textContent     = c.name;
+    document.getElementById('farewellText').textContent     = c.farewell;
+    document.getElementById('welcomeImg').src               = nc.img;
+    document.getElementById('welcomeName').textContent      = nc.name;
+    document.getElementById('welcomeRole').textContent      = nc.role;
+    document.getElementById('welcomeText').textContent      =
+      welcomeLines[currentChar]?.[nextKey] || nc.diagSpeech.replace(/<br>/g, '');
+
     document.getElementById('swPhase1').classList.add('active');
     document.getElementById('swPhase2').classList.remove('active');
     replayAnimations('screen-switch');
