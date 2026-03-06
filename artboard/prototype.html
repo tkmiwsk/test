@@ -1206,8 +1206,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding: 0;
+    justify-content: center;
+    padding: 60px 0 100px;
     min-height: 100%;
     overflow: hidden;
   }
@@ -1234,13 +1234,15 @@
 
   /* Header bar */
   .wlc-topbar {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 2;
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 28px 20px 0;
+    padding: 20px 20px 0;
     opacity: 0;
     animation: fadeUp var(--duration-normal) 0.1s var(--ease-enter) forwards;
   }
@@ -1280,7 +1282,6 @@
     align-items: flex-end;
     gap: 12px;
     width: 100%;
-    padding: 24px 0 0;
     opacity: 0;
     animation: fadeUp var(--duration-slow) 0.25s var(--ease-enter) forwards;
   }
