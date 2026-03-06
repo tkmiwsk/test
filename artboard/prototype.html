@@ -863,6 +863,177 @@
   }
   .welcome-start:hover { filter: brightness(1.08); transform: translateY(-1px); }
 
+  /* ===============================================
+     SCREEN 4: SNS Connect (L Mode)
+  =============================================== */
+  .screen-connect {
+    background: linear-gradient(180deg, var(--accent-surface) 0%, var(--bg-page) 45%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 48px;
+    min-height: 100%;
+  }
+
+  .connect-char-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 28px 0 16px;
+    opacity: 0;
+    transform: scale(0.9);
+    animation: charReveal var(--duration-dramatic) 0.3s var(--ease-bounce) forwards;
+  }
+  .connect-char-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-light);
+    animation: ringPulse 2.5s ease-in-out infinite;
+  }
+  .connect-char-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    z-index: 1;
+  }
+
+  .connect-heading {
+    text-align: center;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp var(--duration-slow) 0.7s var(--ease-enter) forwards;
+  }
+  .connect-heading h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 2px;
+  }
+  .connect-heading p {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .connect-bubble {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 20px;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp var(--duration-slow) 1.0s var(--ease-enter) forwards;
+  }
+  .connect-bubble .bubble-inner {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px;
+    line-height: 1.85;
+    color: var(--text-primary);
+    background: var(--bg-page);
+    border: 1px solid var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px var(--radius-m) var(--radius-m) var(--radius-m);
+    padding: 12px 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .sns-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeUp var(--duration-slow) 1.3s var(--ease-enter) forwards;
+  }
+  .sns-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-page);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-m);
+    padding: 12px 14px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+  }
+  .sns-row:hover { border-color: var(--accent-light); box-shadow: var(--shadow-md); }
+  .sns-row.connected {
+    border-color: var(--accent-light);
+    background: var(--accent-surface);
+  }
+  .sns-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-s);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    background: var(--bg-inset);
+  }
+  .sns-icon.ig  { background: #fce4ec; }
+  .sns-icon.x   { background: #f3f4f6; }
+  .sns-icon.tt  { background: #e8f5e9; }
+  .sns-icon.yt  { background: #ffebee; }
+  .sns-info { flex: 1; }
+  .sns-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .sns-desc {
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+  .sns-connect-btn {
+    height: 32px;
+    padding: 0 14px;
+    border: 1.5px solid var(--accent);
+    border-radius: var(--radius-s);
+    background: transparent;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all var(--duration-fast);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .sns-connect-btn:hover { background: var(--accent); color: var(--text-inverse); }
+  .sns-connected-badge {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: var(--radius-s);
+    background: var(--status-success);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .connect-skip {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    opacity: 0;
+    animation: fadeUp var(--duration-slow) 1.7s var(--ease-enter) forwards;
+  }
+
   /* ===== Keyframes ===== */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(8px); }
@@ -908,6 +1079,13 @@
         <div class="nav-label-wrap">
           キャラ切替
           <small>L Mode — 退場・登場演出</small>
+        </div>
+      </button>
+      <button class="nav-btn" onclick="showScreen('connect')">
+        <div class="nav-icon">L</div>
+        <div class="nav-label-wrap">
+          SNS連携
+          <small>L Mode — 連携促進</small>
         </div>
       </button>
     </div>
@@ -1105,6 +1283,72 @@
       </div>
     </div>
 
+    <!-- Screen 4: SNS Connect -->
+    <div class="screen screen-connect" id="screen-connect">
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-icons">●●● ▲ 🔋</div>
+      </div>
+      <span class="mode-badge l"><span class="mode-dot"></span>L Mode</span>
+
+      <div class="connect-char-wrap">
+        <div class="connect-char-ring"></div>
+        <img class="connect-char-img" id="connectCharImg" src="images/yomi.png" alt="">
+      </div>
+
+      <div class="connect-heading">
+        <h2>SNSアカウントを連携する</h2>
+        <p>データを読み込んで、アドバイスを始めます</p>
+      </div>
+
+      <div class="connect-bubble">
+        <div class="bubble-inner" id="connectSpeech">
+          「データがないと、何も話せない。<br>……連携してくれると、本気になれます」
+        </div>
+      </div>
+
+      <div class="sns-list">
+        <!-- Instagram -->
+        <div class="sns-row" id="rowIg">
+          <div class="sns-icon ig">📸</div>
+          <div class="sns-info">
+            <div class="sns-name">Instagram</div>
+            <div class="sns-desc">リール・フィード・ストーリーズ</div>
+          </div>
+          <button class="sns-connect-btn" onclick="connectSNS('ig')">連携する</button>
+        </div>
+        <!-- X -->
+        <div class="sns-row" id="rowX">
+          <div class="sns-icon x">𝕏</div>
+          <div class="sns-info">
+            <div class="sns-name">X（旧Twitter）</div>
+            <div class="sns-desc">ポスト・インプレッション</div>
+          </div>
+          <button class="sns-connect-btn" onclick="connectSNS('x')">連携する</button>
+        </div>
+        <!-- TikTok -->
+        <div class="sns-row" id="rowTt">
+          <div class="sns-icon tt">🎵</div>
+          <div class="sns-info">
+            <div class="sns-name">TikTok</div>
+            <div class="sns-desc">動画・視聴数・フォロワー</div>
+          </div>
+          <button class="sns-connect-btn" onclick="connectSNS('tt')">連携する</button>
+        </div>
+        <!-- YouTube -->
+        <div class="sns-row" id="rowYt">
+          <div class="sns-icon yt">▶️</div>
+          <div class="sns-info">
+            <div class="sns-name">YouTube</div>
+            <div class="sns-desc">チャンネル・再生回数</div>
+          </div>
+          <button class="sns-connect-btn" onclick="connectSNS('yt')">連携する</button>
+        </div>
+      </div>
+
+      <div class="connect-skip" onclick="showScreen('home')">後でやる（スキップ）</div>
+    </div>
+
   </div><!-- /phone-frame -->
 </div><!-- /prototype-wrapper -->
 
@@ -1118,6 +1362,7 @@
       homeSpeech: '「昨夜の投稿、寝てる間に数字が動いてました。……報告します。エンゲージメント率が先週比+12%。何か変えましたか？」',
       homeExpr: '🤔',
       farewell: '「……そうですか。まあ、データはいつでもここにあります。……いつでも戻ってきてください」',
+      connectSpeech: '「データがないと、何も話せない。<br>……連携してくれると、本気になれます」',
       reactions: ['📋','📈','✨','🎉']
     },
     bassar: {
@@ -1127,6 +1372,7 @@
       homeSpeech: '「遅い。もうフォロワーのフィード流れてるよ。今日の戦略、聞く気ある？ リーチは悪くないけど、投稿の質がバラついてる」',
       homeExpr: '😏',
       farewell: '「あっそ。……まあ、充電したらまた来なよ。オレはいつでも相手してやるから」',
+      connectSpeech: '「後でやる、ってやつは大体やらない。<br>……今すぐつなげ。それだけだ」',
       reactions: ['📝','💪','🔥','👊']
     },
     nukuru: {
@@ -1136,6 +1382,7 @@
       homeSpeech: '「おはよう。今日もちゃんとここ来たね。……それだけでえらいよ。今週の数字、一緒に見ようか？ いいこといっぱいあるよ」',
       homeExpr: '🥰',
       farewell: '「……そっか。でもね、いつでも戻っておいで。ここは、きみの安全地帯だから」',
+      connectSpeech: '「むずかしく考えなくていいよ。<br>ボタン押すだけ。……一緒にやろう」',
       reactions: ['🌱','🌟','💚','🎶']
     }
   };
@@ -1225,6 +1472,10 @@
     document.getElementById('homeExpr').textContent     = c.homeExpr;
     c.reactions.forEach((r, i) => document.getElementById('r' + (i+1)).textContent = r);
 
+    // Connect screen
+    document.getElementById('connectCharImg').src     = c.img;
+    document.getElementById('connectSpeech').innerHTML = c.connectSpeech;
+
     // Switch screen は showScreen 時に動的更新するため、ここでは更新不要
 
     replayAnimations('screen-' + currentScreen);
@@ -1261,6 +1512,17 @@
     p2.querySelectorAll('.welcome-char,.welcome-name,.welcome-role,.welcome-bubble,.welcome-start').forEach(e => {
       e.style.animation = 'none'; void e.offsetHeight; e.style.animation = '';
     });
+  }
+
+  /* ===== SNS Connect interaction ===== */
+  function connectSNS(platform) {
+    const row = document.getElementById('row' + platform.charAt(0).toUpperCase() + platform.slice(1));
+    if (!row) return;
+    const btn = row.querySelector('.sns-connect-btn');
+    if (!btn) return;
+    // Replace button with connected badge
+    btn.outerHTML = '<div class="sns-connected-badge">✓ 連携済み</div>';
+    row.classList.add('connected');
   }
 
   // Init
