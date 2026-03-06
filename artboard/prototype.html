@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SNS Advisor — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* Character Colors */
+    --yomi: #0EA5E9;
+    --yomi-light: #E0F2FE;
+    --yomi-surface: #F0F9FF;
+    --yomi-dark: #0369A1;
+    --yomi-glow: rgba(14, 165, 233, 0.3);
+    --yomi-bg-start: #0c1929;
+    --yomi-bg-end: #0f2740;
+
+    --bassar: #F43F5E;
+    --bassar-light: #FFE4E6;
+    --bassar-surface: #FFF1F2;
+    --bassar-dark: #BE123C;
+    --bassar-glow: rgba(244, 63, 94, 0.3);
+    --bassar-bg-start: #1a0c10;
+    --bassar-bg-end: #2d1118;
+
+    --nukuru: #10B981;
+    --nukuru-light: #D1FAE5;
+    --nukuru-surface: #ECFDF5;
+    --nukuru-dark: #047857;
+    --nukuru-glow: rgba(16, 185, 129, 0.3);
+    --nukuru-bg-start: #0c1f17;
+    --nukuru-bg-end: #0f2e22;
+
+    /* Active theme (default: yomi) */
+    --accent: var(--yomi);
+    --accent-light: var(--yomi-light);
+    --accent-surface: var(--yomi-surface);
+    --accent-dark: var(--yomi-dark);
+    --accent-glow: var(--yomi-glow);
+    --bg-start: var(--yomi-bg-start);
+    --bg-end: var(--yomi-bg-end);
+
+    /* Neutral */
+    --bg-card: rgba(255,255,255,0.06);
+    --bg-card-solid: #1a2332;
+    --border: rgba(255,255,255,0.08);
+    --border-light: rgba(255,255,255,0.12);
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+
+    --radius-s: 8px;
+    --radius-m: 12px;
+    --radius-l: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+  }
+
+  body {
+    background: #0a0a0a;
+    color: var(--text-primary);
+    font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  /* ===== Layout ===== */
+  .prototype-wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .phone-frame {
+    width: 375px;
+    height: 812px;
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow:
+      0 0 0 2px rgba(255,255,255,0.1),
+      0 25px 80px rgba(0,0,0,0.5);
+    transition: box-shadow 0.6s ease;
+  }
+
+  .phone-frame[data-theme="yomi"] {
+    box-shadow: 0 0 0 2px rgba(14,165,233,0.2), 0 25px 80px rgba(0,0,0,0.5), 0 0 60px rgba(14,165,233,0.08);
+  }
+  .phone-frame[data-theme="bassar"] {
+    box-shadow: 0 0 0 2px rgba(244,63,94,0.2), 0 25px 80px rgba(0,0,0,0.5), 0 0 60px rgba(244,63,94,0.08);
+  }
+  .phone-frame[data-theme="nukuru"] {
+    box-shadow: 0 0 0 2px rgba(16,185,129,0.2), 0 25px 80px rgba(0,0,0,0.5), 0 0 60px rgba(16,185,129,0.08);
+  }
+
+  /* Screen Container */
+  .screen {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .screen.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .screen::-webkit-scrollbar { display: none; }
+
+  /* ===== Side Panel ===== */
+  .side-panel {
+    width: 260px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 8px;
+  }
+  .panel-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    padding: 0 4px;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    background: rgba(255,255,255,0.03);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .nav-btn:hover {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-primary);
+    border-color: var(--border-light);
+  }
+  .nav-btn.active {
+    background: rgba(255,255,255,0.08);
+    color: var(--text-primary);
+    border-color: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+  .nav-btn .nav-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .nav-btn .nav-label {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .nav-btn .nav-label small {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+  .nav-btn.active .nav-label small { color: var(--text-secondary); }
+
+  .char-select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .char-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    background: rgba(255,255,255,0.02);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .char-btn:hover {
+    background: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+  }
+  .char-btn.active {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.06);
+  }
+  .char-btn img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* ===== Screen: Diagnosis Result (L Mode) ===== */
+  .screen-diagnosis {
+    background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 50%, #0f172a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 24px 40px;
+    min-height: 100%;
+  }
+
+  .diagnosis-intro {
+    text-align: center;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.6s 0.2s ease forwards;
+  }
+  .diagnosis-intro p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+  }
+
+  .diagnosis-char-area {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: scale(0.9);
+    animation: charReveal 0.8s 0.6s ease forwards;
+  }
+  .diagnosis-char-area::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .diagnosis-char-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 30px var(--accent-glow);
+  }
+
+  .diagnosis-name {
+    text-align: center;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeUp 0.6s 1.0s ease forwards;
+  }
+  .diagnosis-name h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+  .diagnosis-name .char-role {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .diagnosis-speech {
+    max-width: 300px;
+    margin: 16px auto 28px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.4s ease forwards;
+  }
+  .diagnosis-speech .speech-bubble {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text-primary);
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 4px 20px 20px 20px;
+    padding: 16px 20px;
+    position: relative;
+  }
+  .diagnosis-speech .speech-bubble::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 20px;
+    width: 12px;
+    height: 12px;
+    background: var(--bg-card);
+    border-left: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light);
+    transform: rotate(45deg);
+  }
+
+  .diagnosis-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 300px;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.8s ease forwards;
+  }
+  .btn-primary {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-secondary {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+
+  .diagnosis-others {
+    margin-top: 20px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.5s 2.2s ease forwards;
+  }
+  .diagnosis-others a {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .diagnosis-others a:hover { color: var(--text-secondary); border-color: var(--text-secondary); }
+
+  /* ===== Screen: Home (M + S Mode) ===== */
+  .screen-home {
+    background: linear-gradient(180deg, var(--bg-start) 0%, #0f172a 30%, #0f172a 100%);
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  .home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 54px 20px 16px;
+  }
+  .home-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .home-char-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+  }
+  .home-app-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .home-notif-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+  }
+  .home-notif-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid #0f172a;
+  }
+
+  .home-content {
+    flex: 1;
+    padding: 0 20px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* M Mode: Character Dialogue */
+  .char-dialogue {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    padding: 16px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.2s ease forwards;
+  }
+  .dialogue-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .dialogue-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+  }
+  .dialogue-meta {
+    flex: 1;
+  }
+  .dialogue-meta .char-name-sm {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .dialogue-meta .dialogue-time {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .dialogue-expression-tag {
+    font-size: 20px;
+  }
+  .dialogue-text {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-primary);
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 4px 14px 14px 14px;
+    border: 1px solid var(--border);
+  }
+  .typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    background: var(--accent);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 0.8s ease-in-out infinite;
+  }
+
+  /* Summary Card */
+  .summary-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    padding: 20px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.4s ease forwards;
+  }
+  .summary-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .summary-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .stat-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    padding: 14px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-size: 22px;
+    font-weight: 800;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+  }
+  .stat-change {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .stat-change.positive { color: #22C55E; }
+  .stat-change.negative { color: #EF4444; }
+
+  /* S Mode: Mini character reaction on data */
+  .stat-item .s-mode-reaction {
+    font-size: 14px;
+    float: right;
+    margin-top: -4px;
+  }
+
+  /* Posts Grid */
+  .posts-section {
+    opacity: 0;
+    animation: fadeUp 0.5s 0.6s ease forwards;
+  }
+  .posts-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .posts-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .post-thumb {
+    aspect-ratio: 1;
+    border-radius: var(--radius-s);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+  }
+  .post-thumb:hover { border-color: var(--accent); }
+  .post-thumb .post-placeholder {
+    font-size: 28px;
+    opacity: 0.4;
+  }
+  .post-thumb .comment-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  /* Tab Bar */
+  .tab-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 84px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding-top: 10px;
+    z-index: 10;
+  }
+  .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: none;
+    border: none;
+    font-family: inherit;
+    padding: 4px 12px;
+  }
+  .tab-icon {
+    font-size: 20px;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+  }
+  .tab-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+  }
+  .tab-item.active .tab-icon { opacity: 1; }
+  .tab-item.active .tab-label { color: var(--accent); font-weight: 600; }
+
+  /* ===== Screen: Character Switch (L Mode) ===== */
+  .screen-switch {
+    background: linear-gradient(180deg, #0a0a12 0%, #0f1520 50%, #0f172a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: 40px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .switch-phase {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+  }
+  .switch-phase.active {
+    display: flex;
+  }
+
+  /* Phase 1: Farewell */
+  .farewell-char-area {
+    width: 180px;
+    height: 180px;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: charFadeIn 0.8s 0.3s ease forwards;
+    position: relative;
+  }
+  .farewell-char-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--border-light);
+    filter: brightness(0.8);
+  }
+  .farewell-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%);
+  }
+
+  .farewell-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.8s ease forwards;
+  }
+  .farewell-speech {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-primary);
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-l);
+    padding: 20px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.5s 1.2s ease forwards;
+  }
+  .switch-continue-btn {
+    padding: 14px 40px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeUp 0.5s 1.6s ease forwards;
+  }
+  .switch-continue-btn:hover {
+    background: rgba(255,255,255,0.06);
+    color: var(--text-primary);
+  }
+
+  /* Phase 2: Welcome */
+  .welcome-char-area {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: charReveal 0.8s 0.3s ease forwards;
+    position: relative;
+  }
+  .welcome-char-area::before {
+    content: '';
+    position: absolute;
+    inset: -24px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .welcome-char-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 40px var(--accent-glow);
+  }
+
+  .welcome-name {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.8s ease forwards;
+  }
+  .welcome-role {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.5s 1.0s ease forwards;
+  }
+  .welcome-speech {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-primary);
+    text-align: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-l);
+    padding: 20px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.5s 1.4s ease forwards;
+  }
+  .welcome-start-btn {
+    padding: 16px 48px;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--accent);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    animation: fadeUp 0.5s 1.8s ease forwards;
+  }
+  .welcome-start-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+  /* Particles */
+  .particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* ===== Animations ===== */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes charReveal {
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes charFadeIn {
+    to { opacity: 1; }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @keyframes float {
+    0% { opacity: 0; transform: translateY(100%) scale(0); }
+    20% { opacity: 0.6; }
+    100% { opacity: 0; transform: translateY(-800px) scale(1); }
+  }
+
+  /* ===== Mode Label (annotation) ===== */
+  .mode-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    position: absolute;
+    top: 44px;
+    right: 16px;
+    z-index: 20;
+  }
+  .mode-label .mode-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .mode-label.l-mode .mode-dot { background: #F59E0B; }
+  .mode-label.m-mode .mode-dot { background: #8B5CF6; }
+  .mode-label.s-mode .mode-dot { background: #06B6D4; }
+</style>
+</head>
+<body>
+
+<div class="prototype-wrapper">
+
+  <!-- Side Panel -->
+  <div class="side-panel">
+    <div class="panel-title">Screens</div>
+    <button class="nav-btn active" onclick="showScreen('diagnosis')">
+      <div class="nav-icon" style="background: rgba(245,158,11,0.12); color: #F59E0B;">L</div>
+      <div class="nav-label">
+        診断結果
+        <small>L Mode — ステージ演出</small>
+      </div>
+    </button>
+    <button class="nav-btn" onclick="showScreen('home')">
+      <div class="nav-icon" style="background: rgba(139,92,246,0.12); color: #8B5CF6;">M</div>
+      <div class="nav-label">
+        ホーム
+        <small>M+S Mode — 対話・常駐</small>
+      </div>
+    </button>
+    <button class="nav-btn" onclick="showScreen('switch')">
+      <div class="nav-icon" style="background: rgba(245,158,11,0.12); color: #F59E0B;">L</div>
+      <div class="nav-label">
+        キャラ切替
+        <small>L Mode — 退場・登場演出</small>
+      </div>
+    </button>
+
+    <div style="margin-top: 8px;">
+      <div class="panel-title">Character</div>
+    </div>
+    <div class="char-select-group">
+      <button class="char-btn active" data-char="yomi" onclick="switchCharacter('yomi')">
+        <img src="images/yomi.png" alt="">
+        <span>ヨミ — 数値の参謀</span>
+      </button>
+      <button class="char-btn" data-char="bassar" onclick="switchCharacter('bassar')">
+        <img src="images/bassar.png" alt="">
+        <span>バッサー — 辛口コーチ</span>
+      </button>
+      <button class="char-btn" data-char="nukuru" onclick="switchCharacter('nukuru')">
+        <img src="images/nukuru.png" alt="">
+        <span>ヌクル — 癒し系</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Phone Frame -->
+  <div class="phone-frame" id="phoneFrame" data-theme="yomi">
+
+    <!-- Screen 1: Diagnosis Result -->
+    <div class="screen screen-diagnosis active" id="screen-diagnosis">
+      <span class="mode-label l-mode"><span class="mode-dot"></span>L Mode</span>
+
+      <div class="diagnosis-intro">
+        <p>あなたにぴったりの<br>アドバイザーは……</p>
+      </div>
+
+      <div class="diagnosis-char-area">
+        <img class="diagnosis-char-img" id="diagnosisCharImg" src="images/yomi.png" alt="">
+      </div>
+
+      <div class="diagnosis-name">
+        <h2 id="diagnosisCharName">ヨミ</h2>
+        <div class="char-role" id="diagnosisCharRole">― 数値の参謀 ―</div>
+      </div>
+
+      <div class="diagnosis-speech">
+        <div class="speech-bubble" id="diagnosisSpeech">
+          「面白いデータが出た。<br>……聞きたい？」
+        </div>
+      </div>
+
+      <div class="diagnosis-actions">
+        <button class="btn-primary" id="diagnosisCTA">このアドバイザーで始める</button>
+        <button class="btn-secondary">結果をシェアする</button>
+      </div>
+
+      <div class="diagnosis-others">
+        <a href="#">他のアドバイザーも見る ↓</a>
+      </div>
+    </div>
+
+    <!-- Screen 2: Home -->
+    <div class="screen screen-home" id="screen-home">
+      <span class="mode-label m-mode"><span class="mode-dot"></span>M+S Mode</span>
+
+      <div class="home-header">
+        <div class="home-header-left">
+          <img class="home-char-icon" id="homeCharIcon" src="images/yomi.png" alt="">
+          <span class="home-app-name">SNS Advisor</span>
+        </div>
+        <div class="home-notif-btn">
+          🔔
+          <div class="home-notif-badge"></div>
+        </div>
+      </div>
+
+      <div class="home-content">
+        <!-- M Mode: Dialogue -->
+        <div class="char-dialogue" id="homeDialogue">
+          <div class="dialogue-header">
+            <img class="dialogue-avatar" id="homeDialogueAvatar" src="images/yomi.png" alt="">
+            <div class="dialogue-meta">
+              <div class="char-name-sm" id="homeDialogueName">ヨミ</div>
+              <div class="dialogue-time">3時間前</div>
+            </div>
+            <div class="dialogue-expression-tag" id="homeDialogueExpression">😊</div>
+          </div>
+          <div class="dialogue-text" id="homeDialogueText">
+            「昨夜の投稿、寝てる間に数字が動いてました。……報告します。エンゲージメント率が先週比+12%。何か変えましたか？」
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary-card">
+          <div class="summary-title">今週のサマリー</div>
+          <div class="summary-grid">
+            <div class="stat-item">
+              <div class="stat-label">投稿数</div>
+              <div class="stat-value">5 <span class="s-mode-reaction" id="statReaction1">📋</span></div>
+              <div class="stat-change positive">+2 from last week</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">総リーチ</div>
+              <div class="stat-value">12.3K <span class="s-mode-reaction" id="statReaction2">📈</span></div>
+              <div class="stat-change positive">+18%</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">Eng率</div>
+              <div class="stat-value">4.2% <span class="s-mode-reaction" id="statReaction3">✨</span></div>
+              <div class="stat-change positive">+0.3</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">フォロワー</div>
+              <div class="stat-value">+89 <span class="s-mode-reaction" id="statReaction4">🎉</span></div>
+              <div class="stat-change positive">good pace</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="posts-section">
+          <div class="posts-title">最近の投稿</div>
+          <div class="posts-grid">
+            <div class="post-thumb">
+              <span class="post-placeholder">📷</span>
+              <span class="comment-badge">💬</span>
+            </div>
+            <div class="post-thumb"><span class="post-placeholder">📷</span></div>
+            <div class="post-thumb">
+              <span class="post-placeholder">🎬</span>
+              <span class="comment-badge">💬</span>
+            </div>
+            <div class="post-thumb"><span class="post-placeholder">📷</span></div>
+            <div class="post-thumb"><span class="post-placeholder">📷</span></div>
+            <div class="post-thumb"><span class="post-placeholder">🎬</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="tab-bar">
+        <div class="tab-item active">
+          <span class="tab-icon">🏠</span>
+          <span class="tab-label">ホーム</span>
+        </div>
+        <div class="tab-item">
+          <span class="tab-icon">📊</span>
+          <span class="tab-label">分析</span>
+        </div>
+        <div class="tab-item">
+          <span class="tab-icon">👤</span>
+          <span class="tab-label">キャラ</span>
+        </div>
+        <div class="tab-item">
+          <span class="tab-icon">⚙️</span>
+          <span class="tab-label">設定</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 3: Character Switch -->
+    <div class="screen screen-switch" id="screen-switch">
+      <span class="mode-label l-mode"><span class="mode-dot"></span>L Mode</span>
+
+      <div class="particles" id="particles"></div>
+
+      <!-- Phase 1: Farewell -->
+      <div class="switch-phase active" id="switchPhase1">
+        <div class="farewell-char-area">
+          <img class="farewell-char-img" id="farewellCharImg" src="images/yomi.png" alt="">
+          <div class="farewell-overlay"></div>
+        </div>
+        <div class="farewell-name" id="farewellCharName">ヨミ</div>
+        <div class="farewell-speech" id="farewellSpeech">
+          「……そうですか。まあ、データはいつでもここにあります。……いつでも戻ってきてください」
+        </div>
+        <button class="switch-continue-btn" onclick="showSwitchPhase2()">次へ →</button>
+      </div>
+
+      <!-- Phase 2: Welcome -->
+      <div class="switch-phase" id="switchPhase2">
+        <div class="welcome-char-area">
+          <img class="welcome-char-img" id="welcomeCharImg" src="images/bassar.png" alt="">
+        </div>
+        <div class="welcome-name" id="welcomeCharName">バッサー</div>
+        <div class="welcome-role" id="welcomeCharRole">― 辛口コーチ ―</div>
+        <div class="welcome-speech" id="welcomeSpeech">
+          「やっと来たか。ヌクルに甘やかされてたんだろ？ ……ここからはオレが鍛える」
+        </div>
+        <button class="welcome-start-btn" onclick="showScreen('home')">はじめる →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ===== Character Data =====
+  const characters = {
+    yomi: {
+      name: 'ヨミ',
+      role: '― 数値の参謀 ―',
+      img: 'images/yomi.png',
+      accent: '#0EA5E9',
+      diagnosisSpeech: '「面白いデータが出た。<br>……聞きたい？」',
+      homeSpeech: '「昨夜の投稿、寝てる間に数字が動いてました。……報告します。エンゲージメント率が先週比+12%。何か変えましたか？」',
+      homeExpression: '😊',
+      farewellSpeech: '「……そうですか。まあ、データはいつでもここにあります。……いつでも戻ってきてください」',
+      statReactions: ['📋', '📈', '✨', '🎉'],
+      theme: 'yomi'
+    },
+    bassar: {
+      name: 'バッサー',
+      role: '― 辛口コーチ ―',
+      img: 'images/bassar.png',
+      accent: '#F43F5E',
+      diagnosisSpeech: '「甘やかしてほしいなら<br>他のアドバイザーのとこ行きな」',
+      homeSpeech: '「遅い。もうフォロワーのフィード流れてるよ。今日の戦略、聞く気ある？ リーチは悪くないけど、投稿の質がバラついてる」',
+      homeExpression: '😏',
+      farewellSpeech: '「あっそ。……まあ、充電したらまた来なよ。オレはいつでも相手してやるから」',
+      statReactions: ['📝', '💪', '🔥', '👊'],
+      theme: 'bassar'
+    },
+    nukuru: {
+      name: 'ヌクル',
+      role: '― 共感の癒し系 ―',
+      img: 'images/nukuru.png',
+      accent: '#10B981',
+      diagnosisSpeech: '「今日もちゃんとここ来たね。<br>……それだけでえらいよ」',
+      homeSpeech: '「おはよう。今日もちゃんとここ来たね。……それだけでえらいよ。今週の数字、一緒に見ようか？ いいこといっぱいあるよ」',
+      homeExpression: '🥰',
+      farewellSpeech: '「……そっか。でもね、いつでも戻っておいで。ここは、きみの安全地帯だから」',
+      statReactions: ['🌱', '🌟', '💚', '🎶'],
+      theme: 'nukuru'
+    }
+  };
+
+  // Switch pairs (who welcomes when switching from whom)
+  const switchWelcome = {
+    yomi: {
+      bassar: '「やっと来たか。ヨミのデータ漬けで頭カタくなってない？ ……ここからはオレが鍛える」',
+      nukuru: '「おかえり。ヨミくんのところで頑張ってたんだね。……ゆっくりしていいよ」'
+    },
+    bassar: {
+      yomi: '「……バッサーのところは、大変だったでしょう。データで冷静に整理しましょう」',
+      nukuru: '「おかえり。バッサーに何言われても、きみは頑張ってるよ」'
+    },
+    nukuru: {
+      yomi: '「……ヌクルのところでリフレッシュしましたか。では、データの話をしましょう」',
+      bassar: '「ヌクルんとこでぬくぬくしてたんだろ？ 充電完了なら……本気出すよ？」'
+    }
+  };
+
+  let currentChar = 'yomi';
+  let currentScreen = 'diagnosis';
+
+  // ===== Show Screen =====
+  function showScreen(screenName) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + screenName).classList.add('active');
+
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => {
+      if (b.getAttribute('onclick')?.includes(screenName)) b.classList.add('active');
+    });
+
+    // Reset animations by re-triggering
+    if (screenName === 'diagnosis' || screenName === 'home') {
+      resetAnimations('screen-' + screenName);
+    }
+
+    if (screenName === 'switch') {
+      resetSwitchScreen();
+    }
+
+    currentScreen = screenName;
+  }
+
+  function resetAnimations(screenId) {
+    const screen = document.getElementById(screenId);
+    const animated = screen.querySelectorAll('[style*="animation"], .diagnosis-intro, .diagnosis-char-area, .diagnosis-name, .diagnosis-speech, .diagnosis-actions, .diagnosis-others, .char-dialogue, .summary-card, .posts-section');
+    animated.forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; // trigger reflow
+      el.style.animation = '';
+    });
+  }
+
+  // ===== Switch Character =====
+  function switchCharacter(charName) {
+    if (charName === currentChar) return;
+
+    const prevChar = currentChar;
+    currentChar = charName;
+    const data = characters[charName];
+
+    // Update character buttons
+    document.querySelectorAll('.char-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.char === charName);
+    });
+
+    // Update phone frame theme
+    document.getElementById('phoneFrame').dataset.theme = charName;
+
+    // Update CSS variables
+    const root = document.documentElement;
+    root.style.setProperty('--accent', `var(--${charName})`);
+    root.style.setProperty('--accent-light', `var(--${charName}-light)`);
+    root.style.setProperty('--accent-surface', `var(--${charName}-surface)`);
+    root.style.setProperty('--accent-dark', `var(--${charName}-dark)`);
+    root.style.setProperty('--accent-glow', `var(--${charName}-glow)`);
+    root.style.setProperty('--bg-start', `var(--${charName}-bg-start)`);
+    root.style.setProperty('--bg-end', `var(--${charName}-bg-end)`);
+
+    // Update Diagnosis screen
+    document.getElementById('diagnosisCharImg').src = data.img;
+    document.getElementById('diagnosisCharName').textContent = data.name;
+    document.getElementById('diagnosisCharRole').textContent = data.role;
+    document.getElementById('diagnosisSpeech').innerHTML = data.diagnosisSpeech;
+
+    // Update Home screen
+    document.getElementById('homeCharIcon').src = data.img;
+    document.getElementById('homeDialogueAvatar').src = data.img;
+    document.getElementById('homeDialogueName').textContent = data.name;
+    document.getElementById('homeDialogueText').textContent = data.homeSpeech;
+    document.getElementById('homeDialogueExpression').textContent = data.homeExpression;
+    data.statReactions.forEach((r, i) => {
+      document.getElementById('statReaction' + (i + 1)).textContent = r;
+    });
+
+    // Update Switch screen
+    const prevData = characters[prevChar];
+    document.getElementById('farewellCharImg').src = prevData.img;
+    document.getElementById('farewellCharName').textContent = prevData.name;
+    document.getElementById('farewellSpeech').textContent = prevData.farewellSpeech;
+    document.getElementById('welcomeCharImg').src = data.img;
+    document.getElementById('welcomeCharName').textContent = data.name;
+    document.getElementById('welcomeCharRole').textContent = data.role;
+
+    // Set welcome speech based on switch pair
+    const welcomeText = switchWelcome[prevChar]?.[charName] || data.diagnosisSpeech.replace(/<br>/g, '');
+    document.getElementById('welcomeSpeech').textContent = welcomeText;
+
+    // Re-trigger current screen animations
+    if (currentScreen) {
+      resetAnimations('screen-' + currentScreen);
+    }
+    if (currentScreen === 'switch') {
+      resetSwitchScreen();
+    }
+  }
+
+  // ===== Switch Screen Phases =====
+  function resetSwitchScreen() {
+    document.getElementById('switchPhase1').classList.add('active');
+    document.getElementById('switchPhase2').classList.remove('active');
+    resetAnimations('screen-switch');
+    createParticles();
+  }
+
+  function showSwitchPhase2() {
+    document.getElementById('switchPhase1').classList.remove('active');
+    document.getElementById('switchPhase2').classList.add('active');
+    // Reset phase 2 animations
+    const phase2 = document.getElementById('switchPhase2');
+    const animated = phase2.querySelectorAll('.welcome-char-area, .welcome-name, .welcome-role, .welcome-speech, .welcome-start-btn');
+    animated.forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    });
+    createParticles();
+  }
+
+  // ===== Particles =====
+  function createParticles() {
+    const container = document.getElementById('particles');
+    container.innerHTML = '';
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDelay = Math.random() * 4 + 's';
+      p.style.animationDuration = (3 + Math.random() * 3) + 's';
+      p.style.width = (2 + Math.random() * 3) + 'px';
+      p.style.height = p.style.width;
+      container.appendChild(p);
+    }
+  }
+
+  // Init
+  createParticles();
+</script>
+
+</body>
+</html>
